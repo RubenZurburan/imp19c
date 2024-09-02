@@ -133,16 +133,14 @@ template beige_dark_background
 
 template positive_color_texture
 {
-	texture = "gfx/interface/base_parts/button_allframes.dds"
-	framesize = { 100 100 }
-	frame = 12
+	texture = "gfx/interface/base_parts/base_color.dds"
+	color = { 0.361 0.635 0.118 0.8 }
 }
 
 template negative_color_texture
 {
-    texture = "gfx/interface/base_parts/button_allframes.dds"
-    framesize = { 100 100 }
-    frame = 11
+	texture = "gfx/interface/base_parts/base_color.dds"
+	color = { 0.686 0.09 0.09 0.8 }
 }
 
 
@@ -427,24 +425,16 @@ template VerticalScrollBar
 				
 				background = {
 					shaderfile = "gfx/FX/pdxgui_default.shader"
-					texture = "gfx/interface/base_parts/background_black_texture.dds"
+					using = black_background
 					spriteType = Corneredtiled
 					block "BlackVisible" { visible = no }
 				}
 				
 				button = {		
-					using = button_tiled_texture
-					spriteType = Corneredtiled
-					spriteborder = { 200 200 }
-					gfxtype = framedbuttongfx
+					using = red_background
+					gfxtype = buttongfx
 					alwaystransparent = yes
 					size = { 10 40 }
-		
-					framesize = { 200 200 }
-					upframe = 1
-					overframe = 2
-					downframe = 3
-					disableframe = 4
 					
 					block "On_click_slider" { }
 					
@@ -660,7 +650,7 @@ types Base_GUI_Types
 		
 		background = {
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 			block "WindowAlpha" { alpha = 0.95 }
 			modify_texture = {
@@ -671,22 +661,8 @@ types Base_GUI_Types
 				spriteborder = { 60 60 }
 			}
 		}
-		icon = {
-			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = beige_background
-			spriteType = Corneredtiled
-			alpha = 0.1
-			size = { 100% 100% }
-			modify_texture = {
-				texture = "gfx/interface/base_parts/background_pattern.dds"
-				blend_mode = alphamultiply
-				spriteType = Corneredtiled
-			}
-			modify_texture = {
-				texture = "gfx/interface/base_parts/demanded_filth.dds"
-				blend_mode = alphamultiply
-				spriteType = Corneredtiled
-			}
+		background = {
+			using = pattern_black_background
 			modify_texture = {
 				name = "Alpha"
 				texture = "gfx/interface/base_parts/background_x60bd_alpha2.dds"
@@ -742,126 +718,14 @@ types Base_GUI_Types
 	}
 
 	# Message Window Background 
-	type message_window = window {
+	type message_window = base_window {
 		using = FadeStates
 		# Size needed
 		layer = middle_top
-		background = {
-			shaderfile = "gfx/FX/pdxgui_default.shader"
-			texture = "gfx/interface/base_parts/message_background_texture.dds"
-			spriteType = Corneredtiled
-			color = { 0.486  0.09  0.09 1 }
-			alpha = 0.9
-			margin_right = 22
-			
-			modify_texture = {
-				name = "Alpha"
-				texture = "gfx/interface/base_parts/message_background_x60y60bd_alpha.dds"
-				blend_mode = alphamultiply
-				spriteType = Corneredtiled
-				spriteborder = { 30 30 }
-			}
-		}
-		
-		background = {
-			shaderfile = "gfx/FX/pdxgui_default.shader"
-			#using = flat_background_white
-			texture = "gfx/interface/base_parts/message_background_texture.dds"
-			spriteType = Corneredtiled
-			alpha = 0.95
-			margin_top = -24
-			
-			modify_texture = {
-				name = "Alpha"
-				texture = "gfx/interface/base_parts/background_x60bd_alpha.dds"
-				blend_mode = alphamultiply
-				spriteType = Corneredtiled
-				spriteborder = { 60 60 }
-			}
-		}
-		
-		widget = {
-			position = { 0 -2 }
+		blockoverride "BackgroundGradient" { visible = no }
+		secondary_header = {
+			position = { 0 4 }
 			size = { 100% 32 }
-			
-			hbox = {
-				ignoreinvisible = yes
-				widget = {
-					name = "left side pattern"
-					layoutpolicy_vertical = expanding
-					layoutpolicy_horizontal = expanding
-				
-					background = {
-						shaderfile = "gfx/FX/pdxgui_default.shader"
-						spriteType = Corneredtiled
-						spriteborder = { 0 32 }
-						using = header_secondary_pattern
-
-						modify_texture = {
-							name = "Alpha"
-							texture = "gfx/interface/base_parts/message_background_x60y60bd_alpha.dds"
-							blend_mode = alphamultiply
-							spriteType = Corneredtiled
-							spriteborder = { 30 30 }
-						}
-					}
-				}
-
-				container = {
-						layoutpolicy_vertical = fixed
-						layoutpolicy_horizontal = fixed					
-					
-					textbox = {
-						name = "Title" 
-						position = { 0 -4 }
-						autoresize = yes
-						align = center
-						using = HeaderFont
-						using = Highlight_FontColor
-						
-						block "Title_text" {
-							text = "ToDo"
-						}
-					}
-				}				
-				
-				widget = {
-					name = "right side pattern"
-					layoutpolicy_vertical = expanding
-					layoutpolicy_horizontal = expanding
-				
-					background = {
-						shaderfile = "gfx/FX/pdxgui_default.shader"
-						margin_right = 22
-						margin_left = -8
-						spriteType = Corneredtiled
-						spriteborder = { 0 32 }
-						using = header_secondary_pattern
-
-						modify_texture = {
-							name = "Alpha"
-							texture = "gfx/interface/base_parts/message_background_x60y60bd_alpha.dds"
-							blend_mode = alphamultiply
-							spriteType = Corneredtiled
-							spriteborder = { 30 30 }
-						}		
-						
-						modify_texture = {
-							name = "Alpha"
-							texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-							blend_mode = alphamultiply
-							spriteType = Corneredtiled
-							spriteborder = { 30 30 }
-						}
-					}		
-	
-				}
-				container = {
-					block "White_buttons" {
-						visible = no 
-					}
-				}
-			}
 		}
 	}
 	
@@ -871,7 +735,7 @@ types Base_GUI_Types
 		layer = middle_top
 		background = {
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 			block "WindowAlpha" { alpha = 0.95 }
 			modify_texture = {
@@ -882,22 +746,8 @@ types Base_GUI_Types
 				spriteborder = { 60 60 }
 			}
 		}
-		icon = {
-			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = beige_background
-			spriteType = Corneredtiled
-			alpha = 0.1
-			size = { 100% 100% }
-			modify_texture = {
-				texture = "gfx/interface/base_parts/background_pattern.dds"
-				blend_mode = alphamultiply
-				spriteType = Corneredtiled
-			}
-			modify_texture = {
-				texture = "gfx/interface/base_parts/demanded_filth.dds"
-				blend_mode = alphamultiply
-				spriteType = Corneredtiled
-			}
+		background = {
+			using = pattern_black_background
 			modify_texture = {
 				name = "Alpha"
 				texture = "gfx/interface/base_parts/background_x60bd_alpha2.dds"
@@ -1040,18 +890,29 @@ types Base_GUI_Types
 		# Add a size and position when placing this type. Y size is always 32. 
 		minimumsize = { 0 32 }
 		hbox = {
-			
 			background = {
 				shaderfile = "gfx/FX/pdxgui_default.shader"
-				using = header_l
-
+				using = red_background
+				using = top_bar_alpha_x120bd_full
+				margin_left = -3
+				margin_right = -4
+			}
+			background = {
+				shaderfile = "gfx/FX/pdxgui_default.shader"
+				using = header_ornament
+				using = top_bar_alpha_x120bd_full
+				margin_left = -3
+				margin_right = -4
 				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_l_x20bd_alpha1.dds"
+					texture = "gfx/interface/base_parts/header_s_pattern_x104bd_right_cut2.dds"
 					blend_mode = alphamultiply
 					spriteType = Corneredtiled
-					spriteborder = { 10 2 }
-				}			
+				}
+				modify_texture = {
+					texture = "gfx/interface/base_parts/demanded_filth.dds"
+					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+				}
 			}
 			
 			widget = {
@@ -1059,6 +920,150 @@ types Base_GUI_Types
 				size = { 8 8 }
 			}		
 			
+			block "AdditionalIcons"
+			{
+			
+			}
+			
+			widget = {
+				size = { 40 32 }
+				layoutpolicy_horizontal = fixed
+				
+				block "Icon_visible"
+				{
+					visible = no
+				}
+				
+				icon = {
+					position = { 0 -4 }
+					framesize = { 50 50 }
+					size = { 38 38 }
+					
+					block "Icon"
+					{
+						texture = "gfx/interface/icons/shared_icons/leader.dds"
+					}
+				}			
+			}
+			
+			block "TextTitle"
+			{
+				textbox = {
+					name = "Title" 
+					autoresize = yes
+					elide = right
+					using = SubHeaderFont
+					using = Sub_Header_FontColor
+				
+					block "Title_text" 
+					{
+						text = "Test Title"
+					}
+					
+					block "Max_text_width" 
+					{
+						# Set this too sub_header Size X - 52.
+						# If there is an Icon set this to Size X - 92.
+						max_width = 400
+					}
+					background = {
+						shaderfile = "gfx/FX/pdxgui_default.shader"
+						using = red_background
+						using = top_bar_alpha_x120bd_full
+						margin = { 5 4 }
+						margin_right = 160
+						modify_texture = {
+							blend_mode = alphamultiply
+							texture = "gfx/interface/base_parts/horizontal_gradient_stretch.dds"
+						}
+					}
+				}
+			}
+			
+			widget = {
+				name = "Spacing_Widget_2"
+				size = { 4 4 }
+			}
+			
+			icon = {
+				name = "Ornament"
+				size = { 0 32 }
+
+				layoutpolicy_vertical = fixed
+				layoutpolicy_horizontal = expanding
+			}
+			hbox = {
+				spacing = 4
+				block "White_buttons" {
+				}
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { -2 4 }
+					margin_left = 100
+					margin_right = 6
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch_inverted.dds"
+					}
+				}
+			}
+			
+			widget = {
+				size = { 10 8 }
+			}
+			
+		}	
+	}
+	
+	type secondary_header_center = widget {
+		# Add a size and position when placing this type. Y size is always 32. 
+		minimumsize = { 0 32 }
+		hbox = {
+			background = {
+				shaderfile = "gfx/FX/pdxgui_default.shader"
+				using = red_background
+				using = top_bar_alpha_x120bd_full
+				margin_left = -2
+				margin_right = -5
+			}
+			background = {
+				shaderfile = "gfx/FX/pdxgui_default.shader"
+				using = header_ornament
+				using = top_bar_alpha_x120bd_full
+				margin_left = -2
+				margin_right = -5
+				modify_texture = {
+					texture = "gfx/interface/base_parts/header_s_pattern_x104bd_right_cut2.dds"
+					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+				}
+				modify_texture = {
+					texture = "gfx/interface/base_parts/demanded_filth.dds"
+					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+				}
+			}
+			widget = {
+				size = { 1 30 }
+				background = {
+					using = horizontal_gradient_stretch
+					margin_top = 1
+					margin_left = -2
+				}
+			}
+			widget = {
+				name = "Spacing_Widget_1"
+				size = { 8 8 }
+			}		
+			icon = {
+				name = "Ornament1"
+				size = { 0 32 }
+
+				layoutpolicy_vertical = fixed
+				layoutpolicy_horizontal = expanding
+			}
 			block "AdditionalIcons"
 			{
 			
@@ -1106,6 +1111,16 @@ types Base_GUI_Types
 						# If there is an Icon set this to Size X - 92.
 						max_width = 400
 					}
+
+					background = {
+						using = red_background
+						using = top_bar_alpha_x120bd_full
+						margin = { 100 4 }
+						modify_texture = {
+							blend_mode = alphamultiply
+							texture = "gfx/interface/base_parts/horizontal_gradient_stretch_black_double.dds"
+						}
+					}
 				}
 			}
 			
@@ -1115,32 +1130,43 @@ types Base_GUI_Types
 			}
 			
 			icon = {
-				name = "Ornament"
-				using = header_secondary_pattern
+				name = "Ornament2"
 				size = { 0 32 }
 
 				layoutpolicy_vertical = fixed
 				layoutpolicy_horizontal = expanding
-				spriteType = Corneredtiled
-				
-				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_s_x104bd_right_cut_alpha.dds"
-					blend_mode = alphamultiply
-					spriteType = Corneredtiled
-					spriteborder = { 60 40 }		
+			}
+			
+			hbox = {
+				spacing = 4
+				block "White_buttons" {
+				}
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { -2 5 }
+					margin_left = 100
+					margin_right = 3
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch_inverted.dds"
+					}
 				}
 			}
 			
-			block "White_buttons" {  }
-			
 			widget = {
-				size = { 8 8 }
+				size = { 8 30 }
+				background = {
+					using = horizontal_gradient_stretch_inverted
+					margin_top = 1
+					margin_right = -5
+				}
 			}
 			
 		}	
 	}
-	
+
 	# Sub Header
 	type sub_header = widget {
 		# Add a size and position when placing this type. Y size is always 32. 
@@ -1254,8 +1280,7 @@ types Base_GUI_Types
 			size = { 100% 100% }
 			parentanchor = top|right
 			widgetanchor = top|right
-			using = flat_background_white
-			spriteType = Corneredtiled
+			using = black_background
 			alpha = 0.5
 			modify_texture = {
 				name = "Alpha"
@@ -1292,16 +1317,31 @@ types Base_GUI_Types
 			hbox = {
 				background = {
 					shaderfile = "gfx/FX/pdxgui_default.shader"
-					using = header_s
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+				}
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = header_ornament
+					using = top_bar_alpha_x120bd_full
 					modify_texture = {
-						name = "Alpha"
-						texture = "gfx/interface/base_parts/header_s_x20bd_alpha.dds"
+						texture = "gfx/interface/base_parts/header_s_pattern_x104bd_right_cut2.dds"
 						blend_mode = alphamultiply
 						spriteType = Corneredtiled
-						spriteborder = { 52 0 }
-					}			
+					}
+					modify_texture = {
+						texture = "gfx/interface/base_parts/demanded_filth.dds"
+						blend_mode = alphamultiply
+						spriteType = Corneredtiled
+					}
 				}
-				
+				widget = {
+					size = { 1 32 }
+					background = {
+						using = horizontal_gradient_stretch
+						margin = { 0 0 }
+					}
+				}
 				widget = {
 					name = "Spacing_Widget_1"
 					size = { 4 4 }
@@ -1335,7 +1375,7 @@ types Base_GUI_Types
 					using = SubHeaderFont
 					using = Sub_Header_FontColor
 					margin_bottom = 4
-				
+					
 					block "Title_text" 
 					{
 						text = "Test Title"
@@ -1347,6 +1387,17 @@ types Base_GUI_Types
 						# If there is an Icon set this to Size X - 50.
 						max_width = 300
 					}
+					background = {
+						shaderfile = "gfx/FX/pdxgui_default.shader"
+						using = red_background
+						using = top_bar_alpha_x120bd_full
+						margin = { 5 4 }
+						margin_right = 160
+						modify_texture = {
+							blend_mode = alphamultiply
+							texture = "gfx/interface/base_parts/horizontal_gradient_stretch.dds"
+						}
+					}
 				}
 				
 				widget = {
@@ -1356,32 +1407,19 @@ types Base_GUI_Types
 				
 				icon = {
 					name = "Ornament"
-					using = flat_background_white
 					size = { 0 32 }
 					layoutpolicy_vertical = fixed
 					layoutpolicy_horizontal = expanding
-					spriteType = Corneredtiled
-					alpha = 0.2
-					
-					modify_texture = {
-						name = "Alpha"
-						using = header_s_pattern
-						blend_mode = alphamultiply
-						spriteType = Corneredtiled
-						spriteborder = { 0 20 }
-						
-					}
-				
-					modify_texture = {
-						name = "Alpha"
-						texture = "gfx/interface/base_parts/header_s_x104bd_right_cut_alpha.dds"
-						blend_mode = alphamultiply
-						spriteType = Corneredtiled
-						spriteborder = { 60 40 }
-					}
 				}
 				block "Header_v_buttons" {
 
+				}
+				widget = {
+					size = { 1 32 }
+					background = {
+						using = horizontal_gradient_stretch_inverted
+						margin = { 0 0 }
+					}
 				}
 			}
 		}
@@ -2597,13 +2635,12 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
-			spriteType = Corneredtiled
+			using = black_background
 		}
 		
 		button = {
 			name = "button teal border"
-			using = button_tiled_texture
+			using = red_background
 			spriteType = Corneredtiled
 			spriteborder = { 200 200 }
 			gfxtype = framedbuttongfx
@@ -3366,15 +3403,9 @@ types Base_GUI_Types
 	
 		button = {
 			name = "Button_Outline"
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			block "On_click" { }
 			block "Shortcut" { }
 
@@ -3404,13 +3435,13 @@ types Base_GUI_Types
 						blend_mode = alphamultiply
 					}			
 				}
-				background = {
-					name = "side_pattern"
-					texture = "gfx/interface/base_parts/button_pattern.dds"
-					shaderfile = "gfx/FX/pdxgui_default.shader"
-					spriteType = Corneredtiled
-					spriteborder = { 24 0 }
-				}				
+				#background = {
+				#	name = "side_pattern"
+				#	texture = "gfx/interface/base_parts/button_pattern.dds"
+				#	shaderfile = "gfx/FX/pdxgui_default.shader"
+				#	spriteType = Corneredtiled
+				#	spriteborder = { 24 0 }
+				#}				
 			}
 			textbox = {
 				name = "Text"
@@ -3453,7 +3484,7 @@ types Base_GUI_Types
 		icon = {
 			name = "LineCenter"
 			position = { 0 30 }
-			using = beige_medium_background
+			using = brighten_red_background
 			spriteType = Corneredtiled
 			size = { 100% 2 }
 			modify_texture = {
@@ -3469,7 +3500,7 @@ types Base_GUI_Types
 		icon = {
 			name = "LineRight"
 			position = { 2 30 }
-			using = beige_medium_background
+			using = brighten_red_background
 			spriteType = Corneredtiled
 			size = { 2 2 }
 			parentanchor = right
@@ -3477,7 +3508,7 @@ types Base_GUI_Types
 
 		button = {
 			name = "Button_Outline"
-			using = button_tiled_texture
+			using = red_background
 			spriteType = Corneredtiled
 			gfxtype = framedbuttongfx
 			size = { 100% 100% }
@@ -3800,9 +3831,7 @@ types Base_GUI_Types
 			}
 			
 			icon = {
-				using = button_tiled_texture
-				spriteborder = { 200 200 }
-				framesize = { 200 200 }
+				using = red_background
 				size = { 100% 14 }
 				parentanchor = hcenter|vcenter
 				
@@ -3846,17 +3875,9 @@ types Base_GUI_Types
 		using = DropShadow
 		button = {
 			name = "Button_Outline"
-			using = button_tiled_texture
-			#alpha = 0.9
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_primary"			
 			block "On_click" { }
 			background = {
@@ -4060,28 +4081,12 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
-			spriteType = Corneredtiled
+			using = black_background
 		}
 		
-		
-		using = button_tiled_texture
-		spriteType = Corneredtiled
-		spriteborder = { 200 200 }
-		gfxtype = framedbuttongfx
-		#size = { 100% 100% }
-
-		framesize = { 200 200 }
-		upframe = 1
-		overframe = 2
-		downframe = 3
-		disableframe = 4
-		
+		using = red_background
+		gfxtype = buttongfx
 		block "On_click" { }
-		
-		# ToDo: Add Sound. //?
-		# clicksound = " ToDo "
-		# oversound = " ToDo "
 		
 		modify_texture = {
 			name = "Alpha"
@@ -4094,9 +4099,7 @@ types Base_GUI_Types
 		icon = {
 			widgetanchor = center
 			parentanchor = center					
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			framesize = { 200 200 }
+			using = red_background
 			alwaystransparent = yes
 			size = { 20 20 }
 
@@ -4143,22 +4146,14 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
-			spriteType = Corneredtiled
+			using = black_background
 		}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
+			using = red_background
 			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			gfxtype = buttongfx
 			size = { 100% 100% }
-
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			
 			block "On_click" { }
 			
@@ -4179,19 +4174,8 @@ types Base_GUI_Types
 				icon = {
 					widgetanchor = center
 					parentanchor = center					
-					using = button_tiled_texture
+					using = brighten_red_background
 					spriteType = Corneredtiled
-					#spriteborder = { 200 200 }
-					framesize = { 200 200 }
-					frame = 1
-					
-					#gfxtype = framedbuttongfx
-					
-					#upframe = 1
-					#overframe = 2
-					#downframe = 3
-					#disableframe = 4
-					
 					size = { 20 20 }
 
 					modify_texture = {
@@ -4523,7 +4507,7 @@ types Base_GUI_Types
 		icon = {
 			name = "Base"
 			size = { 26 26 }
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 			
 			modify_texture = {
@@ -4534,16 +4518,9 @@ types Base_GUI_Types
 		}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			
 			# ToDo: Add Sound.//increment
 			clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_increment"
@@ -4564,17 +4541,10 @@ types Base_GUI_Types
 			
 			button = {
 				size = { 26 26 }
-				using = button_tiled_texture
-				spriteType = corneredtiled
-				gfxtype = framedbuttongfx
+				using = red_background
+				gfxtype = buttongfx
 				widgetanchor = center
 				parentanchor = center
-				
-				framesize = { 200 200 }
-				upframe = 1
-				overframe = 2
-				downframe = 3
-				disableframe = 4                
 				
 				block "On_click" { }
 				clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_increment"
@@ -4610,7 +4580,7 @@ types Base_GUI_Types
 		icon = {
 			name = "Base"
 			size = { 26 26 }
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 			
 			modify_texture = {
@@ -4628,17 +4598,9 @@ types Base_GUI_Types
 		#}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
-			
 			
 			# ToDo: Add Sound. Decrement
 			clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_decrement"
@@ -4652,17 +4614,10 @@ types Base_GUI_Types
 			
 			button = {
 				size = { 26 26 }
-				using = button_tiled_texture
-				spriteType = corneredtiled
-				gfxtype = framedbuttongfx
+				using = red_background
+				gfxtype = buttongfx
 				widgetanchor = center
-				parentanchor = center
-				
-				framesize = { 200 200 }
-				upframe = 1
-				overframe = 2
-				downframe = 3
-				disableframe = 4                
+				parentanchor = center              
 				
 				block "On_click" { }
 				clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_decrement"
@@ -4697,8 +4652,7 @@ types Base_GUI_Types
 		icon = {
 			name = "Base"
 			size = { 26 26 }
-			using = flat_background_white
-			spriteType = Corneredtiled
+			using = black_background
 			
 			modify_texture = {
 				name = "Alpha"
@@ -4708,17 +4662,9 @@ types Base_GUI_Types
 		}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
-			
 			
 			# ToDo: Add Sound.//? radial?
 			clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_radio"
@@ -4732,9 +4678,8 @@ types Base_GUI_Types
 			
 			button = {
 				size = { 26 26 }
-				using = button_tiled_texture
-				spriteType = corneredtiled
-				gfxtype = framedbuttongfx
+				using = brighten_red_background
+				gfxtype = buttongfx
 				widgetanchor = center
 				parentanchor = center
 				block "On_click" { }
@@ -4819,21 +4764,14 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 		}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			
 			# ToDo: Add Sound.//?
 			#clicksound = " ToDo "
@@ -4856,19 +4794,12 @@ types Base_GUI_Types
 				
 			button = {
 				size = { 26 26 }
-				using = button_tiled_texture
-				spriteType = corneredtiled
-				gfxtype = framedbuttongfx
+				using = red_background
+				gfxtype = buttongfx
 				widgetanchor = center
 				parentanchor = center
 				
-				clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_secondary"
-				
-				framesize = { 200 200 }
-				upframe = 1
-				overframe = 2
-				downframe = 3
-				disableframe = 4                
+				clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_secondary"              
 				
 				block "On_click" { }
 				
@@ -4877,9 +4808,7 @@ types Base_GUI_Types
 					texture = "gfx/interface/base_parts/score.dds"
 					blend_mode = alphamultiply                  
 				}
-
 				using = ButtonBorderTear
-
 			}
 		}
 	}
@@ -4907,21 +4836,14 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 		}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			
 			# ToDo: Add Sound.//?
 			#clicksound = " ToDo "
@@ -4944,29 +4866,21 @@ types Base_GUI_Types
 			
 			button = {
 				size = { 26 26 }
-				using = button_tiled_texture
-				spriteType = corneredtiled
-				gfxtype = framedbuttongfx
+				using = red_background
+				gfxtype = buttongfx
 				widgetanchor = center
 				parentanchor = center
 				
 				block "On_click" { }
 				#Clicksound Message Log? 
-				clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_secondary"
-				framesize = { 200 200 }
-				upframe = 1
-				overframe = 2
-				downframe = 3
-				disableframe = 4                
+				clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_secondary"              
 				
 				modify_texture = {
 					name = "Alpha"
 					texture = "gfx/interface/base_parts/log.dds"
 					blend_mode = alphamultiply                  
 				}
-				
 				using = ButtonBorderTear
-				
 			}
 		}
 	}
@@ -4993,21 +4907,14 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 		}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			
 			# ToDo: Add Sound.//?
 			#clicksound = " ToDo "
@@ -5030,17 +4937,10 @@ types Base_GUI_Types
 			
 			button = {
 				size = { 26 26 }
-				using = button_tiled_texture
-				spriteType = corneredtiled
-				gfxtype = framedbuttongfx
+				using = red_background
+				gfxtype = buttongfx
 				widgetanchor = center
-				parentanchor = center
-				
-				framesize = { 200 200 }
-				upframe = 1
-				overframe = 2
-				downframe = 3
-				disableframe = 4   
+				parentanchor = center 
 				
 				block "On_click" { }
 				
@@ -5052,9 +4952,7 @@ types Base_GUI_Types
 					texture = "gfx/interface/base_parts/ledger.dds"
 					blend_mode = alphamultiply                  
 				}
-				
 				using = ButtonBorderTear
-				
 			}
 		}
 	}
@@ -5082,21 +4980,14 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled
 		}
 		
 		button = {
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			
 			# ToDo: Add Sound.// Main menu button?
 			clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_secondary"
@@ -5119,26 +5010,18 @@ types Base_GUI_Types
 			
 			button = {
 				size = { 26 26 }
-				using = button_tiled_texture
-				spriteType = corneredtiled
-				gfxtype = framedbuttongfx
+				using = red_background
+				gfxtype = buttongfx
 				widgetanchor = center
 				parentanchor = center
 				
-				block "On_click" { }
-				
-				framesize = { 200 200 }
-				upframe = 1
-				overframe = 2
-				downframe = 3
-				disableframe = 4                
+				block "On_click" { }               
 				
 				modify_texture = {
 					name = "Alpha"
 					texture = "gfx/interface/base_parts/menu.dds"
 					blend_mode = alphamultiply                  
 				}
-				
 				using = ButtonBorderTear
 			}
 		}
@@ -5244,18 +5127,14 @@ types Base_GUI_Types
 		icon = {
 			name= "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
-			spriteType = Corneredtiled	
+			using = black_background
 			size = { 100% 100% }
 		}
 		
 		icon = {
 			name = "Button_Outline"
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
+			using = red_background
 			size = { 100% 100% }
-			framesize = { 200 200 }
 		}
 		
 		block "Context" {} #this is inherited, you don't need to use the blockoverride
@@ -6059,10 +5938,7 @@ types Base_GUI_Types
 
 		icon = {
 			size = { 100% 100% }
-			texture = "gfx/interface/base_parts/button_allframes.dds"
-			spriteType = Corneredtiled
-			framesize = { 100 100 }
-			frame = 11
+			using = brighten_red_background
 		}
 		margin_widget = {
 			margin = { 2 2 }
@@ -6071,7 +5947,7 @@ types Base_GUI_Types
 				name = "background_black"
 				size = { 100% 100% }
 				background = {
-					using = flat_background_white
+					using = black_background
 					shaderfile = "gfx/FX/pdxgui_default.shader"
 					spriteType = corneredtiled		
 					
@@ -6091,10 +5967,7 @@ types Base_GUI_Types
 		clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_accordion"
 		name = "teal_list_but"
 		size = { 100% 100% }
-		texture = "gfx/interface/base_parts/button_allframes.dds"
-		spriteType = Corneredtiled
-		framesize = { 100 100 }
-		frame = 11
+		using = brighten_red_background
 
 		margin_widget = {
 			margin = { 2 2 }
@@ -6102,9 +5975,8 @@ types Base_GUI_Types
 			margin_widget = {
 				size = { 100% 100% }
 				background = {
-					using = flat_background_white
-					shaderfile = "gfx/FX/pdxgui_default.shader"
-					spriteType = corneredtiled		
+					using = black_background
+					shaderfile = "gfx/FX/pdxgui_default.shader"	
 					
 					modify_texture = {
 						name = "Alpha" 
@@ -6122,19 +5994,8 @@ types Base_GUI_Types
 		clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_accordion"
 		name = "teal_list_but"
 		size = { 100% 100% }
-		texture = "gfx/interface/base_parts/button_allframes.dds"
-		spriteType = Corneredtiled
-		framesize = { 100 100 }
-		frame = 11
-		state = {
-			name = anim1
-			delay = 0.001
-			frame = 12
-		}
-		state = {
-			name = anim2
-			frame = 11
-		}
+		using = brighten_red_background
+
 		block "On_click" { }
 		margin_widget = {
 			margin = { 2 2 }
@@ -6142,9 +6003,8 @@ types Base_GUI_Types
 			margin_widget = {
 				size = { 100% 100% }
 				background = {
-					using = flat_background_white
-					shaderfile = "gfx/FX/pdxgui_default.shader"
-					spriteType = corneredtiled		
+					using = black_background
+					shaderfile = "gfx/FX/pdxgui_default.shader"	
 					
 					modify_texture = {
 						name = "Alpha" 
@@ -6161,19 +6021,20 @@ types Base_GUI_Types
 		clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_accordion"
 		name = "teal_list_but"
 		size = { 100% 100% }
-		texture = "gfx/interface/base_parts/button_allframes.dds"
+		texture = "gfx/interface/base_parts/buttons_ls.dds"
 		spriteType = Corneredtiled
-		framesize = { 100 100 }
-		frame = 11
+		framesize = { 40 40 }
+		frame = 1
 		state = {
 			name = anim1
 			delay = 0.001
-			frame = 12
+			frame = 2
 		}
 		state = {
 			name = anim2
-			frame = 11
+			frame = 1
 		}
+
 		block "On_click" { }
 		margin_widget = {
 			margin = { 2 2 }
@@ -6193,9 +6054,8 @@ types Base_GUI_Types
 					size = { 496 74 }
 				}
 				background = {
-					using = flat_background_white
-					shaderfile = "gfx/FX/pdxgui_default.shader"
-					spriteType = corneredtiled		
+					using = black_background
+					shaderfile = "gfx/FX/pdxgui_default.shader"	
 					
 					modify_texture = {
 						name = "Alpha" 
@@ -6677,9 +6537,8 @@ types Base_GUI_Types
 							size = { 100% 100% }
 							
 							background = {
-								using = flat_background_white
-								shaderfile = "gfx/FX/pdxgui_default.shader"
-								spriteType = corneredtiled		
+								using = black_background
+								shaderfile = "gfx/FX/pdxgui_default.shader"	
 								
 								modify_texture = {
 									name = "Alpha" 
@@ -7144,29 +7003,14 @@ types Base_GUI_Types
 			background = {
 				name = "Base"
 				shaderfile = "gfx/FX/pdxgui_default.shader"
-				using = flat_background_white
-				spriteType = Corneredtiled
+				using = black_background
 			}
 			button = {
-				using = button_tiled_texture
-				spriteType = Corneredtiled
-				spriteborder = { 200 200 }
-				gfxtype = togglepushbuttongfx
+				using = red_background
+				gfxtype = buttongfx
 				size = { 100% 100% }
-
-				framesize = { 200 200 }
-				upframe = 1
-				uphoverframe = 2
-				uppressedframe = 3
-				downframe = 4
-				downhoverframe = 5
-				downpressedframe = 6
 				
 				block "On_click" { }
-				
-				# ToDo: Add Sound.//?
-				#clicksound = " ToDo "
-				# oversound = " ToDo "
 				
 				modify_texture = {
 					name = "Alpha"
@@ -7179,11 +7023,7 @@ types Base_GUI_Types
 				icon = {
 					widgetanchor = center
 					parentanchor = center					
-					using = button_tiled_texture
-					spriteType = Corneredtiled
-					framesize = { 200 200}
-					frame = 1
-					
+					using = brighten_red_background
 					size = { 20 20 }
 					
 					modify_texture = {
@@ -7226,7 +7066,7 @@ types Base_GUI_Types
 			icon = {
 				name = "Line"
 				position = { 0 40 }
-				using = flat_background
+				using = darken_red_background
 
 				spriteType = Corneredtiled
 				size = { 100% 6 }
@@ -7243,28 +7083,50 @@ types Base_GUI_Types
 		
 		hbox = {
 			spacing = 2
-			
 			background = {
 				shaderfile = "gfx/FX/pdxgui_default.shader"
-				using = header_l
+				using = red_background
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -1 }
+			}
+			background = {
+				shaderfile = "gfx/FX/pdxgui_default.shader"
+				using = header_ornament
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -4 }
 				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_main.dds"
+					texture = "gfx/interface/base_parts/header_s_pattern_x104bd_right_cut2.dds"
 					blend_mode = alphamultiply
 					spriteType = Corneredtiled
-					spriteborder = { 30 0 }
-				}	
+				}
+				modify_texture = {
+					texture = "gfx/interface/base_parts/demanded_filth.dds"
+					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+				}
 			}
-			
 			widget = {
 				name = "Spacing_Widget_1"
-				size = { 12 12 }
+				size = { 12 40 }
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = black_background
+					using = top_bar_alpha_x120bd_full
+					margin_left = -9
+					margin_right = 4
+				}
 			}		
 			
 			container = {
 				block "FlagOrIcon"
 				{
 				
+				}
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = black_background
+					using = top_bar_alpha_x120bd_full
+					margin = { 6 5 }
 				}
 			}
 			
@@ -7282,6 +7144,25 @@ types Base_GUI_Types
 					text = "Test Title"				
 				}
 				
+				background = {
+					texture = "gfx/interface/base_parts/horizontal_gradient_stretch_black.dds"
+					margin = { 0 6 }
+					margin_right = 100
+					using = top_bar_alpha_x120bd_full
+				}
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = black_background
+					using = top_bar_alpha_x120bd_full
+					margin = { 0 7 }
+					margin_right = 50
+					modify_texture = {
+						texture = "gfx/interface/base_parts/top_bar_alpha_x120bd.dds"
+						blend_mode = alphamultiply
+						spriteType = Corneredtiled
+						spriteborder = { 120 0 }
+					}
+				}
 			}
 
 			block "TextOrIcon" 
@@ -7293,23 +7174,12 @@ types Base_GUI_Types
 			
 			icon = {
 				name = "Ornament"
-				using = header_l_pattern
 				layoutpolicy_vertical = fixed
 				layoutpolicy_horizontal = expanding
-				spriteType = Corneredtiled
 
 				block "Max_header_pattern_width" #For small windows like barbarian province window.
 				{
 
-				}
-
-				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-					blend_mode = alphamultiply
-					spriteType = Corneredtiled
-					spriteborder = { 60 40 }
-					#size = { 100% 100% }			
 				}
 			}
 			
@@ -7322,6 +7192,19 @@ types Base_GUI_Types
 					button_close = { 
 						clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_close"
 					}					
+				}
+
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { 0 8 }
+					margin_left = 100
+					margin_right = 7
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch_inverted.dds"
+					}
 				}
 			}
 			
@@ -7341,7 +7224,7 @@ types Base_GUI_Types
 			icon = {
 				name = "Line"
 				position = { 0 40 }
-				using = flat_background
+				using = darken_red_background
 
 				spriteType = Corneredtiled
 				size = { 100% 6 }
@@ -7358,19 +7241,36 @@ types Base_GUI_Types
 		
 		hbox = {
 			spacing = 2
-			
 			background = {
 				shaderfile = "gfx/FX/pdxgui_default.shader"
-				using = header_l
+				using = red_background
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -1 }
+			}
+			background = {
+				shaderfile = "gfx/FX/pdxgui_default.shader"
+				using = header_ornament
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -4 }
 				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_main.dds"
+					texture = "gfx/interface/base_parts/header_s_pattern_x104bd_right_cut2.dds"
 					blend_mode = alphamultiply
 					spriteType = Corneredtiled
-					spriteborder = { 30 0 }
-				}	
+				}
+				modify_texture = {
+					texture = "gfx/interface/base_parts/demanded_filth.dds"
+					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+				}
 			}
-			
+			widget = {
+				size = { 1 37 }
+				background = {
+					using = horizontal_gradient_stretch
+					margin_top = 1
+				}
+			}
+
 			widget = {
 				name = "Spacing_Widget_1"
 				block "Spacing_Widget_1" { size = { 12 12 } }
@@ -7381,27 +7281,28 @@ types Base_GUI_Types
 				{
 				
 				}
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { 0 4 }
+					margin_left = 6
+					margin_right = 100
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch.dds"
+					}
+				}
 			}
 
 			icon = {
 				name = "Ornament"
-				using = header_l_pattern
 				layoutpolicy_vertical = fixed
 				layoutpolicy_horizontal = expanding
-				spriteType = Corneredtiled
 
 				block "Max_header_pattern_width" #For small windows like barbarian province window.
 				{
 
-				}
-
-				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-					blend_mode = alphamultiply
-					spriteType = Corneredtiled
-					spriteborder = { 60 40 }
-					#size = { 100% 100% }			
 				}
 			}
 			container = {
@@ -7421,6 +7322,24 @@ types Base_GUI_Types
 					{
 						text = "Test Title"				
 					}
+
+					background = {
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch_black_double.dds"
+						margin = { 100 6 }
+						using = top_bar_alpha_x120bd_full
+					}
+					background = {
+						shaderfile = "gfx/FX/pdxgui_default.shader"
+						using = black_background
+						using = top_bar_alpha_x120bd_full
+						margin = { 70 7 }
+						modify_texture = {
+							texture = "gfx/interface/base_parts/top_bar_alpha.dds"	
+							blend_mode = alphamultiply
+							spriteType = Corneredtiled
+							spriteborder = { 120 0 }
+						}
+					}
 				}
 			}
 			block "TextOrIcon" 
@@ -7430,23 +7349,12 @@ types Base_GUI_Types
 			
 			icon = {
 				name = "Ornament2"
-				using = header_l_pattern
 				layoutpolicy_vertical = fixed
 				layoutpolicy_horizontal = expanding
-				spriteType = Corneredtiled
 
 				block "Max_header_pattern_width" #For small windows like barbarian province window.
 				{
 
-				}
-
-				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-					blend_mode = alphamultiply
-					spriteType = Corneredtiled
-					spriteborder = { 60 40 }
-					#size = { 100% 100% }			
 				}
 			}
 			
@@ -7460,12 +7368,32 @@ types Base_GUI_Types
 						clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_close"
 					}					
 				}
+
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { 0 8 }
+					margin_left = 100
+					margin_right = 6
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch_inverted.dds"
+					}
+				}
 			}
 			
 			widget = {
 				name = "Spacing_Widget_2"
 				size = { 14 14 }
 				block "RightEdgeSpacer" {}
+			}
+			widget = {
+				size = { 1 37 }
+				background = {
+					using = horizontal_gradient_stretch_inverted
+					margin_top = 1
+				}
 			}
 		}	
 	}
@@ -7478,7 +7406,7 @@ types Base_GUI_Types
 			icon = {
 				name = "Line"
 				position = { 0 40 }
-				using = flat_background
+				using = darken_red_background
 
 				spriteType = Corneredtiled
 				size = { 100% 6 }
@@ -7499,14 +7427,25 @@ types Base_GUI_Types
 			visible = no
 			background = {
 				shaderfile = "gfx/FX/pdxgui_default.shader"
-				using = header_l
+				using = red_background
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -1 }
+			}
+			background = {
+				shaderfile = "gfx/FX/pdxgui_default.shader"
+				using = header_ornament
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -4 }
 				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_main.dds"
+					texture = "gfx/interface/base_parts/header_s_pattern_x104bd_right_cut2.dds"
 					blend_mode = alphamultiply
 					spriteType = Corneredtiled
-					spriteborder = { 30 0 }
-				}	
+				}
+				modify_texture = {
+					texture = "gfx/interface/base_parts/demanded_filth.dds"
+					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+				}
 			}
 			block "ShowButton" {}			
 		}
@@ -7515,29 +7454,56 @@ types Base_GUI_Types
 			name = "headerhidebutton"
 			background = {
 				shaderfile = "gfx/FX/pdxgui_default.shader"
-				using = header_l
+				using = red_background
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -1 }
+			}
+			background = {
+				shaderfile = "gfx/FX/pdxgui_default.shader"
+				using = header_ornament
+				using = top_bar_alpha_x120bd_full
+				margin = { -9 -4 }
 				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_main.dds"
+					texture = "gfx/interface/base_parts/header_s_pattern_x104bd_right_cut2.dds"
 					blend_mode = alphamultiply
 					spriteType = Corneredtiled
-					spriteborder = { 30 0 }
-				}	
+				}
+				modify_texture = {
+					texture = "gfx/interface/base_parts/demanded_filth.dds"
+					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+				}
 			}
 			block "HideButton" {}		
-			
 		}
 		hbox = {
 			spacing = 2
 			widget = {
 				name = "Spacing_Widget_1"
 				size = { 12 12 }
+
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { -9 13 }
+					margin_top = 14
+					margin_right = 14
+				}
 			}		
 			
 			container = {
 				block "FlagOrIcon"
 				{
 				
+				}
+
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { -10 -1 }
+					margin_right = 12
 				}
 			}
 			
@@ -7549,40 +7515,32 @@ types Base_GUI_Types
 				layoutpolicy_vertical = fixed
 				margin_bottom = 4
 				margin_left = 2
-		
 				block "Title_text" 
 				{
 					text = "Test Title"				
 				}
-				
+
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { -10 6 }
+					margin_right = 200
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch.dds"
+					}
+				}
 			}
 
-			block "TextOrIcon" 
-			{
-			
-			}
-
-
-			
 			icon = {
 				name = "Ornament"
-				using = header_l_pattern
 				layoutpolicy_vertical = fixed
 				layoutpolicy_horizontal = expanding
-				spriteType = Corneredtiled
 				
 				block "Max_header_pattern_width" #For small windows like barbarian province window.
 				{
 
-				}
-
-				modify_texture = {
-					name = "Alpha"
-					texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-					blend_mode = alphamultiply
-					spriteType = Corneredtiled
-					spriteborder = { 60 40 }
-					#size = { 100% 100% }			
 				}
 			}
 			
@@ -7595,6 +7553,19 @@ types Base_GUI_Types
 					button_close = { 
 						clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_close"
 					}					
+				}
+
+				background = {
+					shaderfile = "gfx/FX/pdxgui_default.shader"
+					using = red_background
+					using = top_bar_alpha_x120bd_full
+					margin = { 0 6 }
+					margin_left = 100
+					margin_right = 7
+					modify_texture = {
+						blend_mode = alphamultiply
+						texture = "gfx/interface/base_parts/horizontal_gradient_stretch_inverted.dds"
+					}
 				}
 			}
 			
@@ -7842,45 +7813,23 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
-			spriteType = Corneredtiled
+			using = red_background
 		}
 		
 		button = {
 			name = "Button_Outline_Inner"
-			texture = "gfx/interface/base_parts/button_color_400fs.dds"
-			spriteType = Corneredtiled
-			spriteborder = { 100 100 }
-			gfxtype = togglepushbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-
-			framesize = { 100 100 }
-			upframe = 1
-			uphoverframe = 4
-			uppressedframe = 5
-			downframe = 10
-			downhoverframe = 9
-			downpressedframe = 9
 			
 			block "DownState" {  }
-			
 		}
 		
 		button = {
 			name = "Button_Outline"
-			texture = "gfx/interface/base_parts/button_color_red_imp19c_darker.dds"
-			spriteType = Corneredtiled
-			spriteborder = { 100 100 }
-			gfxtype = togglepushbuttongfx
+			using = brighten_red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-
-			framesize = { 100 100 }
-			upframe = 3
-			uphoverframe = 4
-			downhoverframe = 4
-			downpressedframe = 5
-			downframe = 3
-			disableframe = 6
 			
 			block "DownState" {  }
 			block "On_click" { } 
@@ -7982,29 +7931,17 @@ types Base_GUI_Types
 		background = {
 			name = "Base"
 			shaderfile = "gfx/FX/pdxgui_default.shader"
-			using = flat_background_white
+			using = black_background
 			spriteType = Corneredtiled	
 		}
 		
 		button = {
 			name = "Button_Outline"
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			
 			block "On_click" { }
-			
-			# ToDo: Add Sound.//?
-			#clicksound = " ToDo "
-			# oversound = " ToDo "
 			
 			modify_texture = {
 				name = "Alpha"
@@ -8874,7 +8811,7 @@ types Base_GUI_Types
 		
 		button = {
 			name = "Button_Outline"
-			using = beige_medium_background
+			using = brighten_red_background
 			#using = beige_dark_background
 			spriteType = Corneredtiled
 			spriteborder = { 200 200 }
@@ -8903,17 +8840,29 @@ types Base_GUI_Types
 			}
 
 			background = {
-				name = "side_pattern"
-				using = beige_medium_background
 				shaderfile = "gfx/FX/pdxgui_default.shader"
-				margin = { -2 -3 }
+				using = black_background
+				alpha = 0.35
 				modify_texture = {
-					texture = "gfx/interface/base_parts/button_dotted_pattern.dds"
-					spriteType = Corneredtiled
-					spriteborder = { 18 0 }
+					texture = "gfx/interface/base_parts/gradient_black_short.dds"
 					blend_mode = alphamultiply
+					spriteType = Corneredtiled
+					spriteborder = { 30 0 }
 				}
 			}
+
+			#background = {
+			#	name = "side_pattern"
+			#	using = red_background
+			#	shaderfile = "gfx/FX/pdxgui_default.shader"
+			#	margin = { -2 -3 }
+			#	modify_texture = {
+			#		texture = "gfx/interface/base_parts/button_dotted_pattern.dds"
+			#		spriteType = Corneredtiled
+			#		spriteborder = { 18 0 }
+			#		blend_mode = alphamultiply
+			#	}
+			#}
 			
 			hbox = {	
 				name = "button_content_box"
@@ -9073,7 +9022,7 @@ types Base_GUI_Types
 		icon = {
 			name = "LineLeft"
 			position = { 0 1 }
-			using = beige_medium_background
+			using = brighten_red_background
 			spriteType = Corneredtiled
 			size = { 2 2 }
 			parentanchor = bottom
@@ -9081,7 +9030,7 @@ types Base_GUI_Types
 		icon = {
 			name = "LineRight"
 			position = { 2 1 }
-			using = beige_medium_background
+			using = brighten_red_background
 			spriteType = Corneredtiled
 			parentanchor = right|bottom
 			size = { 4 2 }
@@ -9415,7 +9364,7 @@ types Base_GUI_Types
 		}
 		
 		icon = {
-			using = flat_background
+			using = red_background
 			size = { 4 100% }
 		}
 		
@@ -9493,7 +9442,7 @@ types Base_GUI_Types
 		}
 		
 		icon = {
-			using = flat_background
+			using = red_background
 			parentanchor = right
 			size = { 4 100% }
 		}
@@ -9671,16 +9620,9 @@ types Base_GUI_Types
 				margin = { 2 2 }
 				size = { 100% 100% }
 				button = {
-					using = button_tiled_texture
-					spriteType = Corneredtiled
-					spriteborder = { 200 200 }
-					gfxtype = framedbuttongfx
+					using = brighten_red_background
+					gfxtype = buttongfx
 					size = { 100% 100% }
-					framesize = { 200 200 }
-					upframe = 1
-					overframe = 2
-					downframe = 3
-					disableframe = 4
 					parentanchor = center
 
 					# ToDo: Add Sound.//?
@@ -9737,7 +9679,7 @@ types Base_GUI_Types
 		
 		margin_widget = {
 			size = { 100% 100% }
-			margin = { 2 2 }
+			#margin = { 2 2 }
 			button = {
 				texture = "gfx/interface/base_parts/white_background.dds"
 				gfxtype = framedbuttongfx
@@ -10148,7 +10090,7 @@ types Base_GUI_Types
 	
 	type category_drop = button {
 		minimumsize = { 40 30 }
-		using = flat_background_white
+		using = black_background
 		using = DropShadow
 		blockoverride "ShadowMargins"
 		{
@@ -10176,7 +10118,7 @@ types Base_GUI_Types
 		}
 		icon = {
 			size = { 100% 100% }
-			using = button_tiled_texture
+			using = red_background
 			spriteborder = { 200 200 }
 			framesize = { 200 200 }
 			
@@ -10193,10 +10135,7 @@ types Base_GUI_Types
 			block "Right" { visible = no }
 			parentanchor = vcenter|right
 			position = { -4 0 }
-			using = button_tiled_texture
-			spriteborder = { 200 200 }
-			framesize = { 200 200 }
-			alpha = 0.95
+			using = red_background
 			modify_texture = {
 				name = "Alpha"
 				texture = "gfx/interface/base_parts/portrait_x32y32bd_alpha.dds"
@@ -10219,10 +10158,7 @@ types Base_GUI_Types
 			block "Down" {}
 			parentanchor = vcenter|right
 			position = { -4 0 }
-			using = button_tiled_texture
-			spriteborder = { 200 200 }
-			framesize = { 200 200 }
-			alpha = 0.95
+			using = red_background
 			modify_texture = {
 				name = "Alpha"
 				texture = "gfx/interface/base_parts/portrait_x32y32bd_alpha.dds"
@@ -10254,21 +10190,9 @@ types Base_GUI_Types
 				margin_bottom = 0
 				button = {
 					size = { 100% 100% }
-					using = button_tiled_texture
-					spriteType = Corneredtiled
-					spriteborder = { 100 100 }
-					gfxtype = framedbuttongfx
-					
-					# ToDo: Add Sound.//?
-					#clicksound = " ToDo "
-					# oversound = " ToDo "
-					
-					framesize = { 200 200 }
-					upframe = 1
-					overframe = 2
-					downframe = 3
-					disableframe = 4
-					
+					using = red_background
+					gfxtype = buttongfx
+
 					block "On_click" {}
 					
 					margin_widget = {
@@ -10278,9 +10202,8 @@ types Base_GUI_Types
 							size = { 100% 100% }
 							
 							background = {
-								using = flat_background_white
-								shaderfile = "gfx/FX/pdxgui_default.shader"
-								spriteType = corneredtiled		
+								using = black_background
+								shaderfile = "gfx/FX/pdxgui_default.shader"	
 								
 								modify_texture = {
 									name = "Alpha" 
@@ -10578,7 +10501,7 @@ types Base_GUI_Types
 		button = {
 			name = "shiner"
 			size = { 380 38 }
-			texture = "gfx/interface/base_parts/background_noninteractable_texture_dark.dds"
+			using = red_background
 			modify_texture = {
 				name = "Alpha"
 				blend_mode = alphamultiply
@@ -10590,7 +10513,7 @@ types Base_GUI_Types
 			state = {
 				name = pseudo_show
 				animation = {
-					alpha = 0.7
+					alpha = 0.9
 				}
 				duration = 0.15
 			}
@@ -10631,7 +10554,7 @@ types Base_GUI_Types
 			name = "shiner"
 			size = { 100% 100% }
 			#block "ButtonTexture" { texture = "gfx/interface/base_parts/outliner_highlight.dds" }
-			texture = "gfx/interface/base_parts/background_noninteractable_texture_dark.dds"
+			using = red_background
 			modify_texture = {
 				name = "Alpha"
 				blend_mode = alphamultiply
@@ -10644,7 +10567,7 @@ types Base_GUI_Types
 			state = {
 				name = pseudo_show
 				animation = {
-					alpha = 0.7
+					alpha = 0.9
 				}
 				duration = 0.1
 			}
@@ -10836,16 +10759,9 @@ types Base_GUI_Types
 
 		button = {
 			name = "Button_Outline"
-			using = button_tiled_texture
-			spriteType = Corneredtiled
-			spriteborder = { 200 200 }
-			gfxtype = framedbuttongfx
+			using = red_background
+			gfxtype = buttongfx
 			size = { 100% 100% }
-			framesize = { 200 200 }
-			upframe = 1
-			overframe = 2
-			downframe = 3
-			disableframe = 4
 			block "On_click" { }
 			clicksound = "event:/SFX/UI/Generic/2.0/sfx_ui_button_primary"
 			widget = {
@@ -11287,7 +11203,7 @@ template droptargetbutton
 	onclick = "[PdxGuiWidget.FindChild('yellow').InterruptAnimation('destroyyellow')]"
 	onclick = "[PdxGuiWidget.FindChild('yellow').TriggerAnimation('createyellow')]"
 	
-	using = button_tiled_texture
+	using = red_background
 	
 	background = {
 		texture = "gfx/interface/base_parts/button_square_dropshadow_x16y16bd.dds"
@@ -11345,9 +11261,8 @@ template inputfield
 	}
 	
 	icon = {
-		using = beige_medium_background
-		spriteType = Corneredtiled
 		shaderfile = "gfx/FX/pdxgui_default.shader"
+		using = darken_red_background
 		size = { 100% 2 }
 		parentanchor = bottom
 		position = { 0 -2 }
@@ -11595,7 +11510,7 @@ template main_window_template
 {
 	resizable = no
 	movable = no
-	position = { 60 138 }
+	position = { 68 138 }
 }
 
 template MainWindowHeaderBox

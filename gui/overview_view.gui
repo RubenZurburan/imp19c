@@ -7,8 +7,7 @@ base_window = {
 	parentanchor = top|left
 	widgetanchor = top|left
 	size = { @windowwidth @windowheight }
-	position = { 60	138 }
-	movable = no
+	using = main_window_template
 
 	### Audio ###
 	state = {
@@ -105,18 +104,18 @@ base_window = {
 					sub_header_v = {
 						size = { 157 0 }
 						position = { 8 8 }
-						blockoverride "Title_text" { text = "" }	
+						blockoverride "Title_text" { visible = no text = "" }	
 						blockoverride "Max_text_width" { max_width = 230 }
 					}
 					icon = {
 						position = { 2 42 }
-						using = beige_medium_background
+						using = brighten_red_background
 						spriteType = Corneredtiled
 						size = { 166 2 }
 					}
 					icon = {
 						position = { 712 42 }
-						using = beige_medium_background
+						using = brighten_red_background
 						spriteType = Corneredtiled
 						size = { 9 2 }
 					}
@@ -220,9 +219,9 @@ base_window = {
 										blockoverride "Icon" 
 										{
 											size = { 34 34 }
-											texture = "gfx/interface/icons/menu_buttons/menu_government.dds"
+											texture = "gfx/interface/icons/font_icons/font_icon_civic.dds"
 											#framesize = { 50 60 }
-											color = { 0.12 0.12 0.12 1 }
+											#color = { 0.12 0.12 0.12 1 }
 										}
 
 										blockoverride "Text"
@@ -368,326 +367,11 @@ base_window = {
 							size = { 0 200 }
 							margin_left = 6
 							layoutpolicy_horizontal = expanding
-							margin_widget = {
-								name = "ideas and bonus"
-								size = { 340 200 }
-								using = NoninteractableBG
-								blockoverride "Margins"
-								{
-									margin = { 4 8 }
-									margin_top = 4
-								}
-								flowcontainer = {
-									direction = vertical
-									spacing = 0
-									position = { 2 0 }
-
-									container = {
-										parentanchor = hcenter
-										flowcontainer = {
-											position = { 10 34 }
-											parentanchor = hcenter
-											spacing = 0
-											name = "dummy_ideas_grid" 
-													
-											container = {
-												button = {
-													name = "space1"
-													using = idea_slot_not_available
-													blockoverride "Size" { size = { 58 58 } }
-													size = { 74 74 }
-												}
-											}
-											container = {
-												button = {
-													name = "space2"
-													using = idea_slot_not_available
-													blockoverride "Size" { size = { 58 58 } }
-													size = { 74 74 }
-												}
-											}
-											container = {
-												button = {
-													name = "space3"
-													using = idea_slot_not_available
-													blockoverride "Size" { size = { 58 58 } }
-													size = { 74 74 }
-												}
-											}
-											container = {
-												button = {
-													name = "space4"
-													using = idea_slot_not_available
-													blockoverride "Size" { size = { 58 58 } }
-													size = { 74 74 }
-												}
-											}
-										} 
-											
-										fixedgridbox = {
-											position = { 10 0 }
-											name = "ideas_grid"
-											flipdirection = yes
-											addcolumn = 74
-											addrow = 110
-											maxhorizontalslots = 4
-											maxverticalslots = 1
-											item = {
-												widget = { 
-													datacontext = "[IdeaItem.GetIdea]" 
-													size = { 74 110 }
-													
-													icon = {
-														parentanchor = hcenter
-														size = { 120 52 }
-														scale = 0.5
-														position = { 0 20 }
-														using = flat_background_white
-														alpha = 0.0
-														modify_texture = {
-															name = "Alpha"
-															texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-															blend_mode = alphamultiply
-															spriteType = Corneredtiled
-															spriteborder = { 60 -10 }
-														}
-													}
-													
-													icon = {
-														parentanchor = hcenter
-														using = positive_color_texture
-														size = { 120 52 }
-														scale = 0.5
-														position = { 0 20 }
-														visible = "[IdeaItem.IsValid]"
-														alpha = 0.0
-														modify_texture = {
-															name = "Alpha"
-															texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-															blend_mode = alphamultiply
-															spriteType = Corneredtiled
-															spriteborder = { 60 -10 }
-														}
-													}
-													
-													icon = {
-														#parentanchor = hcenter
-														using = negative_color_texture
-														size = { 120 52 }
-														scale = 0.5
-														visible = "[IdeaItem.IsMisMatch]"
-														position = { 0 20 }
-														alpha = 0.0
-														modify_texture = {
-															name = "Alpha"
-															texture = "gfx/interface/base_parts/header_l_x60bd_right_cut_alpha.dds"
-															blend_mode = alphamultiply
-															spriteType = Corneredtiled
-															spriteborder = { 60 -10 }
-														}	
-													}
-													### shadow for group icon
-													icon = {
-														size = { 32 32 }
-														texture = "[IdeaItem.GetGroupTexture]"
-														parentanchor = hcenter
-														position = { -2 6 }
-														tooltip = "[IdeaItem.GetGroupMatchingTooltip]"
-														color = { 0 0 0 0.4 }
-													}
-													### group icon
-													icon = {
-														size = { 32 32 }
-														texture = "[IdeaItem.GetGroupTexture]"
-														parentanchor = hcenter
-														position = { 0 4 }
-														tooltip = "[IdeaItem.GetGroupMatchingTooltip]"
-													}
-													icon_card_idea = {
-														name = "Idea Button"
-														size = { 56 56 }
-														position = { 0 16 }
-														widgetanchor = center
-														parentanchor = center
-														visible = "[IdeaItem.IsValid]"
-														blockoverride "Icon" { 
-															texture = "[IdeaItem.GetIcon]"
-															size = { 48 48 }
-															onclick = "[IdeaItem.OpenSelection]"
-														}
-														tooltipwidget = idea_item_desc_tooltip
-														using = DropShadow
-													}
-													button = {
-														name = "No Picked Idea"
-														position = { 0 16 }
-														tooltipwidget = no_idea_tooltip
-														visible = "[Not(IdeaItem.IsValid)]"
-														alwaystransparent = no
-														size = { 56 56 }
-														gfxtype = framedbuttongfx
-														widgetanchor = center
-														parentanchor = center	
-														enabled = yes
-														onclick = "[IdeaItem.OpenSelection]"
-														framesize = { 200 200 }
-														upframe = 1
-														overframe = 1
-														downframe = 1
-														disableframe = 1
-														using = button_tiled_texture
-														modify_texture = {
-															name = "Alpha"
-															texture = "gfx/interface/base_parts/button2_inner_x8y8bd_alpha.dds"
-															blend_mode = alphamultiply
-															spriteType = Corneredtiled
-															spriteborder = { 6 6 }
-														}
-														#using = DropShadow
-														icon = {
-															name = "Pattern"
-															texture = "gfx/interface/base_parts/square_button_corner_pattern_x22y22bd.dds"
-															spriteType = Corneredtiled
-															spriteborder = { 11 11 }
-															size = { 100% 100% }
-															parentanchor = bottom
-														}
-														
-														icon = {
-															name = "Idea Mark"
-															widgetanchor = center
-															parentanchor = center	
-															texture = "gfx/interface/base_parts/idea_mark.dds"
-															size = { 70% 70% }
-														}
-													}
-												}
-											}
-										}
-									}
-									### Bonus effects from ideas
-									margin_widget = {
-										size = { 310 98 }
-										
-										textbox = {
-											parentanchor = center
-											autoresize = yes
-											max_width = 306
-											fontsize_min = 14
-											elide = right
-											using = BaseFontS
-											using = Black_FontColor
-											text = "[OverviewView.GetPlayer.GetGovernment.GetBonusDescription]"
-											tooltip = "[OverviewView.GetGovBonusTooltip]"
-											alpha = 0.45
-											visible = "[EqualTo_int32( OverviewView.GetGovBonusFrame, '(int32)1' )]" 
-										}
-										
-										textbox = {
-											parentanchor = center
-											autoresize = yes
-											max_width = 306
-											fontsize_min = 14
-											elide = right
-											using = BaseFontS
-											using = Black_FontColor
-											text = "[OverviewView.GetPlayer.GetGovernment.GetBonusDescription]"
-											tooltip = "[OverviewView.GetGovBonusTooltip]"
-											visible = "[EqualTo_int32( OverviewView.GetGovBonusFrame, '(int32)2' )]"
-										}
-									}
-								}
-							}
-							###################
-							## MODIFIERS, CIVIL WAR RISK, PIE CHARTS
-							###################
-							margin_widget = {
-								position = { 354 2 }
-								#parentanchor = bottom|right
-								size = { 226 70 }
-								overlappingitembox = {
-									datamodel = "[OverviewView.GetCountryModifiers]"
-									size = { 100% 38 }
-									spacing = 1
-									using = NoninteractableBG
-									blockoverride "Margins"
-									{
-										margin = { 4 0 }
-										margin_top = 5
-										margin_bottom = 3
-									}
-									item = {
-										container = {
-											modifier_icon = {
-												datacontext = "[TimedModifier.GetModifier]"
-												tooltip = "[TimedModifier.GetTooltip]"
-											}
-											
-											tooltip = "[TimedModifier.GetTooltip]"
-										}
-									}
-								}
-
-								textbox = {
-									visible = "[IsDataModelEmpty(OverviewView.GetCountryModifiers)]"
-									tooltip = NO_CURRENT_MODIFIERS_PROVINCE
-									size = { 100% 100% }
-									using = Black_FontColor
-									text = None
-									align = center
-								}	
-							}
-
-
-							widget = {
-								name = "civil_war_diamond"
-								size = { 52 52 }
-								parentanchor = right
-								position = { -20 -4 }
-								tooltip = "[OverviewView.GetPlayer.GetPossibleCivilWarTooltip]"
-								
-								icon = {
-									texture = "gfx/interface/map/on_map_siege_bar_bg.dds"
-									size = { 52 52 }
-									parentanchor = center
-									color = { 0.9 0.2 0.2 0.88 }
-								}
-								icon = {
-									using = beige_background
-									size = { 40 40 }
-									parentanchor = center
-									#color = { 0.8 0.2 0.2 0.7 }
-									modify_texture = {
-										texture = "gfx/interface/base_parts/diamond_shape.dds"
-										blend_mode = alphamultiply
-										#spriteType = Corneredtiled
-									}
-								}
-								
-								progresspie = {
-									name = "progress"
-									parentanchor = center
-									size = { 52 52 }
-									texture = "gfx/interface/map/on_map_siege_bar.dds"
-									framesize = { 70 70 }
-									frame = 2
-									value = "[FixedPointToFloat( Multiply_CFixedPoint( OverviewView.GetPlayer.GetProgressTowardsCivilWar, '(CFixedPoint)0.01') )]"
-									#value = "[FixedPointToFloat( Multiply_CFixedPoint( DiplomaticView.GetTargetCountry.GetProgressTowardsCivilWar, '(CFixedPoint)0.01' ) )]"
-									icon = {
-										texture = "gfx/interface/icons/shared_icons/civil_war_active_inactive.dds"
-										frame = "[OverviewView.GetPlayer.GetCivilWarFrame]"
-										framesize = { 50 50 }
-										size = { 31 31 }
-										parentanchor = center
-									}
-								}
-							}
-
 							flowcontainer = {
 								#size = { 318 230 }
 								#using = NoninteractableBG
-								position = { 0 22 }
-								parentanchor = right|vcenter
+								position = { 0 -40 }
+								parentanchor = left|top
 								direction = vertical
 								
 								flowcontainer = {
@@ -760,6 +444,35 @@ base_window = {
 											}
 										}
 									}
+									widget = {
+										size = { 106 88 }
+										CustomPiechart = {
+											blockoverride "widget_size_and_pos" {
+												size = { 106 88 }
+											}
+											blockoverride "datamodel" {
+												#datamodel = "[OverviewView.GetPlayer.MakeScope.GetList('list_of_wealth_distribution')]"
+											}
+											blockoverride "slice_tooltip" {
+												#tooltip = "custom_piechart_loc"
+											}
+											blockoverride "slice_size" {
+												#value = "[FixedPointToFloat( Scope.GetProvince.MakeScope.GetVariable('WEALTH_national_data_value').GetValue )]"
+											}
+											blockoverride "piechart_size_and_pos" {
+												size = { 64 64 }
+												parentanchor = hcenter
+											}
+											blockoverride "tag_size_and_pos" {
+												size = { 106 20 }
+												position = { 0 64 }
+												parentanchor = hcenter
+											}
+											blockoverride "tag_text" {
+												text = "none"
+											}
+										}
+									}
 								}
 								flowcontainer = {
 									parentanchor = center
@@ -827,11 +540,345 @@ base_window = {
 											}
 										}
 									}
+									widget = {
+										size = { 106 88 }
+										CustomPiechart = {
+											blockoverride "widget_size_and_pos" {
+												size = { 106 88 }
+											}
+											blockoverride "datamodel" {
+												#datamodel = "[OverviewView.GetPlayer.MakeScope.GetList('list_of_wealth_distribution')]"
+											}
+											blockoverride "slice_tooltip" {
+												#tooltip = "custom_piechart_loc"
+											}
+											blockoverride "slice_size" {
+												#value = "[FixedPointToFloat( Scope.GetProvince.MakeScope.GetVariable('WEALTH_national_data_value').GetValue )]"
+											}
+											blockoverride "piechart_size_and_pos" {
+												size = { 64 64 }
+												parentanchor = hcenter
+											}
+											blockoverride "tag_size_and_pos" {
+												size = { 106 20 }
+												position = { 0 64 }
+												parentanchor = hcenter
+											}
+											blockoverride "tag_text" {
+												text = "none"
+											}
+										}
+									}
 								}
 							}
+							margin_widget = {
+								name = "ideas and bonus"
+								size = { 340 144 }
+								parentanchor = right
+								using = NoninteractableBG
+								blockoverride "Margins"
+								{
+									margin = { 4 8 }
+									margin_top = 4
+								}
+								flowcontainer = {
+									direction = vertical
+									spacing = 0
+									position = { 5 0 }
+
+									container = {
+										parentanchor = hcenter
+										flowcontainer = {
+											position = { 10 34 }
+											parentanchor = hcenter
+											spacing = 0
+											name = "dummy_ideas_grid" 
+													
+											container = {
+												button = {
+													name = "space1"
+													using = idea_slot_not_available
+													blockoverride "Size" { size = { 58 58 } }
+													size = { 74 74 }
+												}
+											}
+											container = {
+												button = {
+													name = "space2"
+													using = idea_slot_not_available
+													blockoverride "Size" { size = { 58 58 } }
+													size = { 74 74 }
+												}
+											}
+											container = {
+												button = {
+													name = "space3"
+													using = idea_slot_not_available
+													blockoverride "Size" { size = { 58 58 } }
+													size = { 74 74 }
+												}
+											}
+											container = {
+												button = {
+													name = "space4"
+													using = idea_slot_not_available
+													blockoverride "Size" { size = { 58 58 } }
+													size = { 74 74 }
+												}
+											}
+										} 
+											
+										fixedgridbox = {
+											position = { 10 0 }
+											name = "ideas_grid"
+											flipdirection = yes
+											addcolumn = 74
+											addrow = 110
+											maxhorizontalslots = 4
+											maxverticalslots = 1
+											item = {
+												widget = { 
+													datacontext = "[IdeaItem.GetIdea]" 
+													size = { 84 110 }
+													
+													icon = {
+														parentanchor = hcenter
+														size = { 120 32 }
+														scale = 0.5
+														position = { 0 25 }
+														using = black_background
+														alpha = 0.5
+														modify_texture = {
+															name = "Alpha"
+															texture = "gfx/interface/base_parts/header_s_x20bd_alpha.dds"
+															blend_mode = alphamultiply
+															spriteType = Corneredtiled
+															spriteborder = { 60 -10 }
+														}
+													}
+													
+													icon = {
+														parentanchor = hcenter
+														using = positive_color_texture
+														size = { 120 32 }
+														scale = 0.5
+														position = { 0 24 }
+														visible = "[IdeaItem.IsValid]"
+														modify_texture = {
+															name = "Alpha"
+															texture = "gfx/interface/base_parts/header_s_x20bd_alpha.dds"
+															blend_mode = alphamultiply
+															spriteType = Corneredtiled
+															spriteborder = { 60 -10 }
+														}
+													}
+													
+													icon = {
+														parentanchor = hcenter
+														using = negative_color_texture
+														size = { 120 32 }
+														scale = 0.5
+														visible = "[IdeaItem.IsMisMatch]"
+														position = { 0 24 }
+														modify_texture = {
+															name = "Alpha"
+															texture = "gfx/interface/base_parts/header_s_x20bd_alpha.dds"
+															blend_mode = alphamultiply
+															spriteType = Corneredtiled
+															spriteborder = { 60 -10 }
+														}	
+													}
+													### shadow for group icon
+													icon = {
+														size = { 32 32 }
+														texture = "[IdeaItem.GetGroupTexture]"
+														parentanchor = hcenter
+														position = { -2 6 }
+														tooltip = "[IdeaItem.GetGroupMatchingTooltip]"
+														color = { 0 0 0 0.4 }
+													}
+													### group icon
+													icon = {
+														size = { 32 32 }
+														texture = "[IdeaItem.GetGroupTexture]"
+														parentanchor = hcenter
+														position = { 0 4 }
+														tooltip = "[IdeaItem.GetGroupMatchingTooltip]"
+													}
+													icon_card_idea = {
+														name = "Idea Button"
+														size = { 56 56 }
+														position = { 0 16 }
+														widgetanchor = center
+														parentanchor = center
+														visible = "[IdeaItem.IsValid]"
+														blockoverride "Icon" { 
+															texture = "[IdeaItem.GetIcon]"
+															size = { 48 48 }
+															onclick = "[IdeaItem.OpenSelection]"
+														}
+														tooltipwidget = idea_item_desc_tooltip
+														using = DropShadow
+													}
+													button = {
+														name = "No Picked Idea"
+														position = { 0 16 }
+														tooltipwidget = no_idea_tooltip
+														visible = "[Not(IdeaItem.IsValid)]"
+														alwaystransparent = no
+														size = { 56 56 }
+														gfxtype = buttongfx
+														widgetanchor = center
+														parentanchor = center	
+														enabled = yes
+														onclick = "[IdeaItem.OpenSelection]"
+														using = red_background
+														modify_texture = {
+															name = "Alpha"
+															texture = "gfx/interface/base_parts/button2_inner_x8y8bd_alpha.dds"
+															blend_mode = alphamultiply
+															spriteType = Corneredtiled
+															spriteborder = { 6 6 }
+														}
+														#using = DropShadow
+														icon = {
+															name = "Pattern"
+															texture = "gfx/interface/base_parts/square_button_corner_pattern_x22y22bd.dds"
+															spriteType = Corneredtiled
+															spriteborder = { 11 11 }
+															size = { 100% 100% }
+															parentanchor = bottom
+														}
+														
+														icon = {
+															name = "Idea Mark"
+															widgetanchor = center
+															parentanchor = center	
+															texture = "gfx/interface/base_parts/idea_mark.dds"
+															size = { 70% 70% }
+														}
+													}
+												}
+											}
+										}
+									}
+									### Bonus effects from ideas
+									margin_widget = {
+										size = { 310 22 }
+										textbox = {
+											parentanchor = center
+											autoresize = yes
+											max_width = 306
+											fontsize_min = 14
+											elide = right
+											using = BaseFontS
+											using = Black_FontColor
+											text = "[OverviewView.GetPlayer.GetGovernment.GetBonusDescription]"
+											tooltip = "[OverviewView.GetGovBonusTooltip]"
+											alpha = 0.45
+											visible = "[EqualTo_int32( OverviewView.GetGovBonusFrame, '(int32)1' )]" 
+										}
+										
+										textbox = {
+											parentanchor = center
+											autoresize = yes
+											max_width = 306
+											fontsize_min = 14
+											elide = right
+											using = BaseFontS
+											using = Black_FontColor
+											text = "[OverviewView.GetPlayer.GetGovernment.GetBonusDescription]"
+											tooltip = "[OverviewView.GetGovBonusTooltip]"
+											visible = "[EqualTo_int32( OverviewView.GetGovBonusFrame, '(int32)2' )]"
+										}
+									}
+								}
+							}
+							margin_widget = {
+								position = { 354 32 }
+								parentanchor = bottom
+								size = { 278 70 }
+								overlappingitembox = {
+									datamodel = "[OverviewView.GetCountryModifiers]"
+									size = { 100% 38 }
+									spacing = 1
+									using = NoninteractableBG
+									blockoverride "Margins"
+									{
+										margin = { 4 0 }
+										margin_top = 5
+										margin_bottom = 3
+									}
+									item = {
+										container = {
+											modifier_icon = {
+												datacontext = "[TimedModifier.GetModifier]"
+												tooltip = "[TimedModifier.GetTooltip]"
+											}
+											
+											tooltip = "[TimedModifier.GetTooltip]"
+										}
+									}
+								}
+
+								textbox = {
+									visible = "[IsDataModelEmpty(OverviewView.GetCountryModifiers)]"
+									tooltip = NO_CURRENT_MODIFIERS_PROVINCE
+									size = { 100% 100% }
+									using = Black_FontColor
+									text = None
+									align = center
+								}	
+							}
+
+
+							widget = {
+								name = "civil_war_diamond"
+								size = { 52 52 }
+								parentanchor = bottom|right
+								position = { 0 6 }
+								tooltip = "[OverviewView.GetPlayer.GetPossibleCivilWarTooltip]"
+								
+								icon = {
+									texture = "gfx/interface/pie_charts/pie_chart_alpha_60_shadow.dds"
+									size = { 54 54 }
+									parentanchor = center
+									alpha = 0.5
+								}
+								icon = {
+									texture = "gfx/interface/base_parts/yellow_button_color_200fs.dds"
+									size = { 54 54 }
+									framesize = { 100 100 }
+									frame = 7
+									parentanchor = center
+									modify_texture = {
+										texture = "gfx/interface/pie_charts/pie_chart_alpha_60.dds"
+										blend_mode = alphamultiply
+									}
+								}
+								
+								progresspie = {
+									name = "progress"
+									parentanchor = center
+									size = { 54 54 }
+									texture = "gfx/interface/pie_charts/pie_chart_alpha_60.dds"
+									framesize = { 68 68 }
+									frame = 2
+									value = "[FixedPointToFloat( Multiply_CFixedPoint( OverviewView.GetPlayer.GetProgressTowardsCivilWar, '(CFixedPoint)0.01') )]"
+									#value = "[FixedPointToFloat( Multiply_CFixedPoint( DiplomaticView.GetTargetCountry.GetProgressTowardsCivilWar, '(CFixedPoint)0.01' ) )]"
+									icon = {
+										texture = "gfx/interface/icons/shared_icons/civil_war_active_inactive.dds"
+										frame = "[OverviewView.GetPlayer.GetCivilWarFrame]"
+										framesize = { 50 50 }
+										size = { 32 32 }
+										parentanchor = center
+									}
+								}
+							}
+
 						}
 
-						sub_header = {
+						sub_header_v = {
 							size = { 688 32 }
 							blockoverride "Title_text"
 							{
@@ -849,7 +896,7 @@ base_window = {
 								
 								scrollarea = {
 									name = "decisions_grid_scrollarea"
-									size = { 100% 454 }
+									size = { 100% 457 }
 									position = { 2 -5 }
 									scrollbarpolicy_horizontal = always_off
 									
@@ -1060,7 +1107,7 @@ base_window = {
 				}
 				margin_widget = { 
 					name = "Province list"
-					size = { 100% 726 }
+					size = { 100% 794 }
 					position = { 0 48 } 
 					margin = { 14 6 }
 					visible = "[GetVariableSystem.Exists('governorships_tab_open')]"
@@ -1409,7 +1456,7 @@ base_window = {
 				}
 				margin_widget = { 
 					name = "States list"
-					size = { 100% 726 }
+					size = { 100% 794 }
 					position = { 0 48 } 
 					visible = "[GetVariableSystem.Exists('provinces_tab_open')]"
 					margin = { 14 6 }
@@ -1601,7 +1648,7 @@ base_window = {
 					}
 					
 					scrollarea = {
-						size = { 100% 688 }
+						size = { 100% 744 }
 						position = { 0 38 }
 						scrollbarpolicy_horizontal = always_off
 						

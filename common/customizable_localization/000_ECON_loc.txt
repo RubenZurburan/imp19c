@@ -2423,3 +2423,272 @@ tracker_tradegood_price_loc = {
         }
     }
 }
+
+# CURRENCY (MOVE TO A NEW FILE)
+
+national_debt_text = {
+    type = country
+    text = {
+        localization_key = national_debt_text_thousands_base
+        trigger = {
+            var:CURRENCY_national_debt_millions < 1
+            var:CURRENCY_national_debt_billions < 1
+        }
+    }
+
+    text = {
+        localization_key = national_debt_text_millions_thousands_001
+        trigger = {
+            var:CURRENCY_national_debt_millions >= 1
+            var:CURRENCY_national_debt_thousands < 10
+            var:CURRENCY_national_debt_billions < 1
+        }
+    }
+    text = {
+        localization_key = national_debt_text_millions_thousands_010
+        trigger = {
+            var:CURRENCY_national_debt_millions >= 1
+            var:CURRENCY_national_debt_thousands >= 10
+            var:CURRENCY_national_debt_thousands < 100
+            var:CURRENCY_national_debt_billions < 1
+        }
+    }
+    text = {
+        localization_key = national_debt_text_millions_thousands_100
+        trigger = {
+            var:CURRENCY_national_debt_millions >= 1
+            var:CURRENCY_national_debt_thousands >= 100
+            var:CURRENCY_national_debt_billions < 1
+        }
+    }
+
+    text = {
+        localization_key = national_debt_text_billions_millions_001_thousands_001
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions < 10
+            var:CURRENCY_national_debt_thousands < 10
+        }
+    }
+    text = {
+        localization_key = national_debt_text_billions_millions_001_thousands_010
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions < 10
+            var:CURRENCY_national_debt_thousands >= 10
+            var:CURRENCY_national_debt_thousands < 100
+        }
+    }
+    text = {
+        localization_key = national_debt_text_billions_millions_001_thousands_100
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions < 10
+            var:CURRENCY_national_debt_thousands >= 100
+        }
+    }
+
+    text = {
+        localization_key = national_debt_text_billions_millions_010_thousands_001
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions >= 10
+            var:CURRENCY_national_debt_millions < 100
+            var:CURRENCY_national_debt_thousands < 10
+        }
+    }
+    text = {
+        localization_key = national_debt_text_billions_millions_010_thousands_010
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions >= 10
+            var:CURRENCY_national_debt_millions < 100
+            var:CURRENCY_national_debt_thousands >= 10
+            var:CURRENCY_national_debt_thousands < 100
+        }
+    }
+    text = {
+        localization_key = national_debt_text_billions_millions_010_thousands_100
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions >= 10
+            var:CURRENCY_national_debt_millions < 100
+            var:CURRENCY_national_debt_thousands >= 100
+        }
+    }
+
+    text = {
+        localization_key = national_debt_text_billions_millions_100_thousands_001
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions >= 100
+            var:CURRENCY_national_debt_thousands < 10
+        }
+    }
+    text = {
+        localization_key = national_debt_text_billions_millions_100_thousands_010
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions >= 100
+            var:CURRENCY_national_debt_thousands >= 10
+            var:CURRENCY_national_debt_thousands < 100
+        }
+    }
+    text = {
+        localization_key = national_debt_text_billions_millions_100_thousands_100
+        trigger = {
+            var:CURRENCY_national_debt_billions >= 1
+            var:CURRENCY_national_debt_millions >= 100
+            var:CURRENCY_national_debt_thousands >= 100
+        }
+    }
+}
+
+amt_circulated_text = {
+    type = country
+    text = {
+        localization_key = amt_circulated_text_thousands_base
+        trigger = {
+            var:CURRENCY_amt_circulated_millions < 1
+        }
+    }
+
+    text = {
+        localization_key = amt_circulated_text_millions_thousands_001
+        trigger = {
+            var:CURRENCY_amt_circulated_millions >= 1
+            var:CURRENCY_amt_circulated_thousands < 10
+            var:CURRENCY_amt_circulated_billions < 1
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_millions_thousands_010
+        trigger = {
+            var:CURRENCY_amt_circulated_millions >= 1
+            var:CURRENCY_amt_circulated_thousands >= 10
+            var:CURRENCY_amt_circulated_thousands < 100
+            var:CURRENCY_amt_circulated_billions < 1
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_millions_thousands_100
+        trigger = {
+            var:CURRENCY_amt_circulated_millions >= 1
+            var:CURRENCY_amt_circulated_thousands >= 100
+            var:CURRENCY_amt_circulated_billions < 1
+        }
+    }
+
+    text = {
+        localization_key = amt_circulated_text_billions_millions_001_thousands_001
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions < 10
+            var:CURRENCY_amt_circulated_thousands < 10
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_billions_millions_001_thousands_010
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions < 10
+            var:CURRENCY_amt_circulated_thousands >= 10
+            var:CURRENCY_amt_circulated_thousands < 100
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_billions_millions_001_thousands_100
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions < 10
+            var:CURRENCY_amt_circulated_thousands >= 100
+        }
+    }
+
+    text = {
+        localization_key = amt_circulated_text_billions_millions_010_thousands_001
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions >= 10
+            var:CURRENCY_amt_circulated_millions < 100
+            var:CURRENCY_amt_circulated_thousands < 10
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_billions_millions_010_thousands_010
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions >= 10
+            var:CURRENCY_amt_circulated_millions < 100
+            var:CURRENCY_amt_circulated_thousands >= 10
+            var:CURRENCY_amt_circulated_thousands < 100
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_billions_millions_010_thousands_100
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions >= 10
+            var:CURRENCY_amt_circulated_millions < 100
+            var:CURRENCY_amt_circulated_thousands >= 100
+        }
+    }
+
+    text = {
+        localization_key = amt_circulated_text_billions_millions_100_thousands_001
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions >= 100
+            var:CURRENCY_amt_circulated_thousands < 10
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_billions_millions_100_thousands_010
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions >= 100
+            var:CURRENCY_amt_circulated_thousands >= 10
+            var:CURRENCY_amt_circulated_thousands < 100
+        }
+    }
+    text = {
+        localization_key = amt_circulated_text_billions_millions_100_thousands_100
+        trigger = {
+            var:CURRENCY_amt_circulated_billions >= 1
+            var:CURRENCY_amt_circulated_millions >= 100
+            var:CURRENCY_amt_circulated_thousands >= 100
+        }
+    }
+}
+
+inflation_deflation_text = {
+    type = country
+    text = {
+        localization_key = deflation_info
+        trigger = {
+            CURRENCY_amt_circulated_deflation > 0
+        }
+    }
+    text = {
+        localization_key = inflation_info
+        trigger = {
+            CURRENCY_amt_circulated_inflation > 0
+        }
+    }
+}
+
+inflation_deflation_tooltip = {
+    type = country
+    text = {
+        localization_key = deflation_tooltip
+        trigger = {
+            CURRENCY_amt_circulated_deflation > 0
+        }
+    }
+    text = {
+        localization_key = inflation_tooltip
+        trigger = {
+            CURRENCY_amt_circulated_inflation > 0
+        }
+    }
+}

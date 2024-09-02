@@ -1,3 +1,894 @@
-﻿CURRENCY_value ={
-	
+﻿CURRENCY_base_starting_amt_circulated_thousands = {
+	# Scope: Country
+	# Function: Get a value proportionate to the country's economy to start off the size of their gold reserves
+	value = country_population
+	multiply = 1
+	round = floor
+}
+
+CURRENCY_gdp_10percent = {
+	value = WEALTH_total_private_moveable_wealth
+	divide = 10
+}
+
+CURRENCY_debt_to_GDP_ratio = {
+	value = CURRENCY_national_debt_scaled_wealth_value_millions
+	divide = WEALTH_total_private_moveable_wealth_scaled
+}
+
+CURRENCY_base_starting_reserve_gold = {
+	# Scope: Country
+	# Function: Get a value proportionate to the country's economy to start off the size of their gold reserves
+	value = country_population
+	multiply = 0.7
+	add = FUNC_cities_10x
+	round = floor
+}
+
+CURRENCY_base_starting_reserve_accumulation_rate_gold = {
+	# Scope: Country
+	value = CURRENCY_base_starting_reserve_gold
+	multiply = 0.1
+	round = floor
+}
+
+CURRENCY_base_starting_reserve_silver = {
+	# Scope: Country
+	# Function: Get a value proportionate to the country's economy to start off the size of their silver reserves
+	value = country_population
+	multiply = 0.28
+	add = FUNC_cities_10x
+	round = floor
+}
+
+CURRENCY_base_starting_reserve_accumulation_rate_silver = {
+	# Scope: Country
+	value = CURRENCY_base_starting_reserve_silver
+	multiply = 0.1
+	round = floor
+}
+
+CURRENCY_wealth_value_10_units = {
+	# Scope: Country
+	# Function: Get the amount of wealth from minting 1,000, used when adding money to the treasury
+	value = CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio
+	multiply = 10
+}
+
+CURRENCY_wealth_value_1k_units = {
+	# Scope: Country
+	# Function: Get the amount of wealth from minting 1,000, used when adding money to the treasury
+	value = CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio
+	multiply = 1000
+}
+
+CURRENCY_wealth_value_10k_units = {
+	# Scope: Country
+	# Function: Get the amount of wealth from minting 1,000, used when adding money to the treasury
+	value = CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio
+	multiply = 10000
+}
+
+CURRENCY_wealth_value_1k_units_basic = {
+	value = CURRENCY_wealth_value_1_unit
+	multiply = 1000
+}
+
+CURRENCY_wealth_value_100_units_basic = {
+	value = CURRENCY_wealth_value_1_unit
+	multiply = 100
+}
+
+CURRENCY_wealth_value_10_units_basic = {
+	value = CURRENCY_wealth_value_1_unit
+	multiply = 10
+}
+
+CURRENCY_wealth_value_10_units_negative = {
+	value = CURRENCY_wealth_value_1_unit
+	multiply = -10
+}
+
+CURRENCY_wealth_value_1k_units_negative = {
+	value = CURRENCY_wealth_value_1_unit
+	multiply = -1000	
+}
+
+CURRENCY_wealth_value_10k_units_negative = {
+	# Scope: Country
+	# Function: Get the amount of wealth from minting 1,000, used when adding money to the treasury
+	value = CURRENCY_wealth_value_1_unit
+	multiply = -10000
+}
+
+CURRENCY_wealth_value_1_unit = {
+	# Scope: Country
+	# Function: Get the amount of "wealth" units that 1 unit of this country's currency can buy according to its pegged reserve value
+	if = {
+		limit = {
+			var:official_currency = {
+				var:backing_type = flag:bimetallic_standard
+			}
+		}
+		value = CURRENCY_wealth_value_bimetallic_from_gold
+		add = CURRENCY_wealth_value_bimetallic_from_silver
+	}
+	else_if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:gold_standard
+		}
+		value = CURRENCY_wealth_value_from_gold
+	}
+	else_if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:silver_standard
+		}
+		value = CURRENCY_wealth_value_from_silver
+	}
+	else = {
+		value = 999 # TEST
+	}
+	divide = var:official_currency.var:units_to_the_lb
+	#multiply = 10
+}
+
+CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio = {
+	value = CURRENCY_wealth_value_1_unit
+	multiply = CURRENCY_wealth_value_reserve_ratio_minting_impact
+}
+
+CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio_x1k = {
+	# Function: Get the value of 1,000 units of currency, to issue £1k of national debt
+	value = CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio
+	multiply = 1000
+}
+
+CURRENCY_wealth_value_reserve_ratio_minting_impact = {
+	value = CURRENCY_reserve_ratio_total
+	divide = CURRENCY_ideal_reserve_ratio
+	max = 1
+}
+
+CURRENCY_ideal_reserve_ratio_multiplier_gold = {
+	# Scope: Country
+	# Function: Take the reserve ACTUAL accumulation rate (never mind the target) and divide it by the total reserve size. This gives the multiplier for minting value given by the reserve ratio.
+	# The ideal reserve ratio % (i.e. maximum reserve ratio size before the bonus caps out) is THIS divided by 100
+	value = var:gold_reserve_actual_change
+	#multiply = 10
+	divide = CURRENCY_total_country_cash_scaled
+	#multiply = 30
+	if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:bimetallic_standard
+		}
+		multiply = CURRENCY_wealth_bimetallic_gold_as_percentage
+	}
+	multiply = 2
+}
+
+CURRENCY_ideal_reserve_ratio_multiplier_silver = {
+	# Scope: Country
+	# Function: Take the reserve ACTUAL accumulation rate (never mind the target) and divide it by the total reserve size. This gives the multiplier for minting value given by the reserve ratio.
+	# The ideal reserve ratio % (i.e. maximum reserve ratio size before the bonus caps out) is THIS divided by 100
+	value = var:silver_reserve_actual_change
+	divide = CURRENCY_total_country_cash_scaled
+	if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:bimetallic_standard
+		}
+		multiply = CURRENCY_wealth_bimetallic_silver_as_percentage
+	}
+	multiply = 2
+}
+
+CURRENCY_ideal_reserve_ratio = {
+	# Scope: Country
+	# Function: Get the ideal reserve ratio multiplier based on the metallic standard in use
+	# Take the reserve ACTUAL accumulation rate (never mind the target) and divide it by the total reserve size. This gives the multiplier for minting value given by the reserve ratio.
+	value = 0.2
+	if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:bimetallic_standard
+		}
+		subtract = CURRENCY_ideal_reserve_ratio_multiplier_gold
+		subtract = CURRENCY_ideal_reserve_ratio_multiplier_silver
+	}
+	else_if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:gold_standard
+		}
+		subtract = CURRENCY_ideal_reserve_ratio_multiplier_gold
+	}
+	else_if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:silver_standard
+		}
+		subtract = CURRENCY_ideal_reserve_ratio_multiplier_silver
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = public_debt_administration
+			}
+		}
+		multiply = 3.5
+	}
+	#divide = CURRENCY_reserve_to_gdp_ratio
+	min = 0.05
+}
+
+CURRENCY_stability_impact_ideal_reserve_ratio = {
+	if = {
+		limit = {
+			stability > 0
+			stability < 50
+		}
+		value = 0.5
+		subtract = stability
+	}
+	else_if = {
+		limit = {
+			stability = 0
+		}
+		value = 1
+	}
+	else = {
+		value = 0.01
+	}
+}
+
+CURRENCY_wealth_bimetallic_gold_as_percentage = {
+	# Scope: Country
+	# Function: Get the % of the reserve made up of gold
+	value = var:gold_reserve_size
+	divide = CURRENCY_wealth_bimetallic_both_reserves_size
+}
+
+CURRENCY_wealth_bimetallic_silver_as_percentage = {
+	# Scope: Country
+	# Function: Get the % of the reserve made up of gold
+	value = var:silver_reserve_size
+	divide = CURRENCY_wealth_bimetallic_both_reserves_size
+}
+
+CURRENCY_wealth_bimetallic_both_reserves_size = {
+	# Scope: Country
+	# Function: Add both metal reserves together
+	value = var:gold_reserve_size
+	add = var:silver_reserve_size
+}
+
+CURRENCY_wealth_value_bimetallic_from_gold = {
+	# Scope: Country
+	# Function: Get the amount of value that gold is contributing to the country's currency value
+	value = var:gold_reserve_size
+	divide = CURRENCY_wealth_bimetallic_both_reserves_size
+	multiply = var:country_unit_price_gold
+	multiply = 16 # 16 ounces to the pound, which is the base ratio
+}
+
+CURRENCY_wealth_value_bimetallic_from_silver = {
+	# Scope: Country
+	# Function: Get the amount of value that gold is contributing to the country's currency value
+	value = var:silver_reserve_size
+	divide = CURRENCY_wealth_bimetallic_both_reserves_size
+	multiply = var:country_unit_price_silver
+	multiply = 16 # 16 ounces to the pound, which is the base ratio
+}
+
+CURRENCY_wealth_value_from_silver = {
+	value = var:country_unit_price_silver
+	multiply = 16
+}
+
+CURRENCY_wealth_value_from_gold = {
+	value = var:country_unit_price_gold
+	multiply = 16
+}
+
+
+CURRENCY_national_debt_scaled = {
+	# Scope: Country
+	# Function: Take the national debt value and scale it down by a factor of 1-,000 to prevent overflows (as this goes into the billions)
+	value = CURRENCY_national_debt_thousands_scaled
+	add = CURRENCY_national_debt_millions_scaled
+	add = CURRENCY_national_debt_billions_scaled
+}
+
+CURRENCY_national_debt_scaled_wealth_value_millions = {
+	# Scope: Country
+	# Function: Get the value of the national debt in millions of wealth units
+	value = CURRENCY_national_debt_scaled
+	multiply = CURRENCY_wealth_value_1_unit
+}
+
+CURRENCY_national_debt_thousands_scaled = {
+	value = var:CURRENCY_national_debt_thousands
+	divide = 1000
+}
+
+CURRENCY_national_debt_millions_scaled = {
+	value = var:CURRENCY_national_debt_millions
+}
+
+CURRENCY_national_debt_billions_scaled = {
+	value = var:CURRENCY_national_debt_billions
+	multiply = 1000
+}
+
+CURRENCY_amt_circulated_scaled = {
+	# Scope: Country
+	# Function: Take the amount circulated value and scale it down by a factor of 10,000 to prevent overflows (as this goes into the billions)
+	value = CURRENCY_amt_circulated_thousands_scaled
+	add = CURRENCY_amt_circulated_millions_scaled
+	add = CURRENCY_amt_circulated_billions_scaled
+}
+
+CURRENCY_amt_circulated_thousands_scaled = {
+	value = var:CURRENCY_amt_circulated_thousands
+	divide = 1000
+}
+
+CURRENCY_amt_circulated_millions_scaled = {
+	value = var:CURRENCY_amt_circulated_millions
+}
+
+CURRENCY_amt_circulated_billions_scaled = {
+	value = var:CURRENCY_amt_circulated_billions
+	multiply = 1000
+}
+
+CURRENCY_total_country_cash_scaled = {
+	# Scope: Country
+	# Function: Get the total amount of public and private cash in a country
+	value = CURRENCY_national_debt_scaled
+	add = CURRENCY_amt_circulated_scaled
+}
+
+CURRENCY_reserve_value_in_cash_scaled = {
+	# Scope: Country
+	# Function: Get the value of the country's percious metal reserves in currency units, divided by 10,000 (to scale wtih CURRENCY_total_country_cash_scaled)
+	if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:bimetallic_standard
+		}
+		value = CURRENCY_wealth_bimetallic_both_reserves_size
+	}
+	else_if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:gold_standard
+		}
+		value = var:gold_reserve_size
+	}
+	else_if = {
+		limit = {
+			var:official_currency.var:backing_type = flag:silver_standard
+		}
+		value = var:silver_reserve_size
+	}
+	divide = 10000
+	multiply = var:official_currency.var:units_to_the_lb
+}
+
+CURRENCY_reserve_value_in_cash_scaled_silver = {
+	# Scope: Country
+	# Function: Get the value of the silver reserve in cash, in the millions
+	value = var:silver_reserve_size
+	divide = 100
+	multiply = var:official_currency.var:units_to_the_lb
+	divide = 100
+}
+
+CURRENCY_reserve_value_in_wealth_silver = {
+	# Scope: Country
+	# Function: Get the wealth value of the silver reserve
+	value = var:silver_reserve_size
+	multiply = global_var:global_base_import_price_silver
+}
+
+CURRENCY_reserve_value_in_cash_scaled_gold = {
+	# Scope: Country
+	# Function: Get the value of the gold reserve in cash, in the millions
+	value = var:gold_reserve_size
+	divide = 100
+	multiply = var:official_currency.var:units_to_the_lb
+	divide = 100
+}
+
+CURRENCY_reserve_value_in_wealth_gold = {
+	# Scope: Country
+	# Function: Get the wealth value of the gold reserve
+	value = var:gold_reserve_size
+	multiply = global_var:global_base_import_price_gold
+}
+
+CURRENCY_reserve_ratio_total = {
+	# Scope: Country
+	# Function: The ratio of currency in national debt and privately held cash, against the value of the precious metal reserves
+	#value = CURRENCY_reserve_value_in_cash_scaled
+	value = 0
+	var:official_currency = {
+		every_in_list = {
+			variable = currency_adopted_countries
+
+			add = CURRENCY_reserve_value_in_cash_scaled
+		}
+	}
+	#value = CURRENCY_reserve_value_in_cash_scaled
+	divide = CURRENCY_total_country_cash_scaled_for_reserve_ratio
+}
+
+CURRENCY_total_country_cash_scaled_for_reserve_ratio = {
+	# Scope: Country
+	# Function: Add the amount of cash in every country using this currency
+	value = 0.001
+	var:official_currency = {
+		every_in_list = {
+			variable = currency_adopted_countries
+
+			add = CURRENCY_total_country_cash_scaled
+		}
+	}
+}
+
+CURRENCY_essentials_buying_power = {
+	# Scope: Country
+	# Function: Gets the effective buying power of the currency for ordinary people, based on how expensive to buy a quarter's worth of essential goods
+	value = var:country_unit_price_grain
+	add = var:country_unit_price_livestock
+	add = var:country_unit_price_fish
+	add = var:country_unit_price_vegetables
+	add = var:country_unit_price_temperate_fruit
+	add = var:country_unit_price_processed_foods
+	add = var:country_unit_price_clothing
+	add = var:country_unit_price_furniture
+	add = var:country_unit_price_pharmaceuticals
+	add = var:country_unit_price_alcohol
+
+	if = {
+		limit = {
+			CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio > 0
+		}
+		divide = CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio
+	}
+	else = {
+		multiply = 32000
+	}
+	divide = 4
+}
+
+CURRENCY_essentials_buying_power_unweighted = {
+	value = var:country_unit_price_grain
+	add = var:country_unit_price_livestock
+	add = var:country_unit_price_fish
+	add = var:country_unit_price_vegetables
+	add = var:country_unit_price_temperate_fruit
+	add = var:country_unit_price_processed_foods
+	add = var:country_unit_price_clothing
+	add = var:country_unit_price_furniture
+	add = var:country_unit_price_pharmaceuticals
+	add = var:country_unit_price_alcohol
+
+	divide = CURRENCY_wealth_value_1_unit
+	divide = 4
+}
+
+CURRENCY_private_cash_needed = {
+	# Scope: Country
+	# Function: Multiply the cost of living by the country population.
+	# This gives the minimum amount of cash that must be in circulation for pops to carry out day to day business. Anything less will cause serious deflation, i.e. demand for goods to drop and for a base level of shortages in every region
+	value = CURRENCY_essentials_buying_power
+	multiply = 4 # Multiply by 4, each pop is 4,000 people and this value will be scaled down to avoid overflows
+	multiply = country_population
+	divide = 4000 # Divide by 4,000 to scale down to CURRENCY_amt_circulated which is measured in the millions, and scaled to the size of a family unit (est. 4 people)
+}
+
+CURRENCY_private_cash_needed_unweighted = {
+	# Scope: Country
+	# Function: Multiply the cost of living by the country population.
+	# SPECIAL - does not weight the need by the reserve ratio, so that this can be used in the ideal reserve ratio calculation
+	# This gives the minimum amount of cash that must be in circulation for pops to carry out day to day business. Anything less will cause serious deflation, i.e. demand for goods to drop and for a base level of shortages in every region
+	value = CURRENCY_essentials_buying_power_unweighted
+	multiply = 4 # Multiply by 4, each pop is 4,000 people and this value will be scaled down to avoid overflows
+	multiply = country_population
+	divide = 1000 # Divide by 1,000 to scale down to CURRENCY_amt_circulated which is measured in the millions
+}
+
+CURRENCY_private_cash_ratio = {
+	# Scope: Country
+	# Function: Get the amount of private currency and divide it by the amount needed to support cost of living. If it's too low, the country will experience deflation as there is not enough money circulating
+	# This also sets the demand for private cash, and will cause pops to create new cash from commerce districts independently
+	# The government can set a rate at which private cash is created or recalled quarterly
+	value = CURRENCY_amt_circulated_scaled
+	divide = CURRENCY_private_cash_needed
+
+}
+
+CURRENCY_private_cash_ratio_unweighted = {
+	value = CURRENCY_amt_circulated_scaled_10x
+	divide = CURRENCY_private_cash_needed_unweighted
+	divide = CURRENCY_reserve_ratio_total
+	#multiply = 15
+}
+
+CURRENCY_units_to_the_lb_reciprocal = {
+	value = 1
+	divide = var:official_currency.var:units_to_the_lb
+}
+
+# Minting rate
+
+CURRENCY_amt_circulated_scaled_1percent = {
+	# Scope: Country
+	# Function: Get 1 percent of the scaled amount of wealth circulated
+	value = CURRENCY_amt_circulated_scaled
+	divide = 100
+}
+
+CURRENCY_amt_circulated_scaled_10percent = {
+	# Scope: Country
+	# Function: Get 1 percent of the scaled amount of wealth circulated
+	value = CURRENCY_amt_circulated_scaled
+	divide = 10
+}
+
+CURRENCY_amt_circulated_scaled_10x = {
+	# Scope: Country
+	# Function: Get 1 percent of the scaled amount of wealth circulated
+	value = CURRENCY_amt_circulated_scaled
+	multiply = 10
+}
+
+CURRENCY_reserve_change_currency_value = {
+	# Scope: Country
+	# Function: Get the 1,000s value of currency in reserve change rates
+	value = var:gold_reserve_actual_change
+	add = var:silver_reserve_actual_change
+	divide = 100
+	multiply = var:official_currency.var:units_to_the_lb
+	round = floor
+}
+
+CURRENCY_reserve_change_currency_value_for_minting = {
+	# Scope: Country
+	# Function: Get 10% of the reserve growth as mintable currency
+	if = {
+		limit = {
+			CURRENCY_reserve_change_currency_value > 0
+		}
+		value = CURRENCY_reserve_change_currency_value
+		divide = 10
+	}
+	else = {
+		value = 0
+	}
+}
+
+CURRENCY_minting_rate_cap = {
+	# Scope: Country
+	# Function: Defines the maximum of new currency that can be minted every month
+	# The formula is:
+	# If paper money is NOT legal
+	# Cap = gold_reserve_actual_change + silver_reserve_actual_change
+	# + 1% of amount in circulation (for coin recycling)
+	if = {
+		limit = {
+			var:official_currency.var:paper_money_allowed = flag:false
+		}
+		value = CURRENCY_reserve_change_currency_value_for_minting
+		add = CURRENCY_amt_circulated_scaled_1percent
+		add = CURRENCY_trade_wealth_income
+		add = CURRENCY_minting_from_sister_countries
+		round = floor
+	}
+
+	# If paper money is legal then there is no cap!
+	else = {
+		value = 99999
+	}
+}
+
+CURRENCY_minting_from_sister_countries = {
+	# Scope: Country
+	# Function: Factor in the extra coinage that can be recycled from other countries using the same currency
+	value = 0
+	var:official_currency = {
+		every_in_list = {
+			variable = currency_adopted_countries
+
+			add = var:TRADE_national_expenditure
+		}
+	}
+	divide = -2
+}
+
+CURRENCY_minting_rate_wealth_value = {
+	# Scope: Country
+	# Function: Calculates the amount of wealth created by minting coins every month
+	value = var:CURRENCY_minting_rate
+	subtract = CURRENCY_amt_circulated_scaled_1percent
+	min = 0
+	multiply = CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio
+	multiply = 10
+}
+
+CURRENCY_minting_rate_wealth_value_per_capita = {
+	value = CURRENCY_minting_rate_wealth_value
+	divide = country_population
+}
+
+# Private currency fluctuation due to trade
+
+CURRENCY_trade_wealth_income = {
+	# Scope: Country
+	# Function: Tracks the amount of mintable coming into the country from foreign currency
+	value = var:TRADE_national_income
+	# We divide by the value of wealth in 1 unit of currency, as that is what we are converting when melting down foreign currency to make our own
+	divide = CURRENCY_wealth_value_1_unit
+	# This is quarterly income, so we divide by 4 for every month
+	divide = 4
+	round = floor
+}
+
+CURRENCY_trade_wealth_outgoing_currency_value = {
+	# Scope: Country
+	# Function: Get the amount of your currency being sent abroad in trade, which is subtracted from privately held cash every month
+	value = var:TRADE_national_expenditure
+	divide = CURRENCY_wealth_value_1_unit
+	# This is quarterly income, so we divide by 4 for every month
+	divide = 4
+	round = floor
+}
+
+CURRENCY_amt_circulated_balance = {
+	value = CURRENCY_trade_wealth_outgoing_currency_value
+	add = var:CURRENCY_minting_rate
+	if = {
+		limit = {
+			CURRENCY_amt_circulated_inflation > 0
+			NOT = {
+				has_variable = CURRENCY_reserves_frozen
+			}
+		}
+		subtract = CURRENCY_inflation_cash_selloff_amt
+	}
+}
+
+# New wealth to governorships based on minting
+
+CURRENCY_governorship_wealth_from_minting = {
+	# Scope: Governorship
+	value = owner.CURRENCY_minting_rate_wealth_value
+	multiply = FUNC_governorship_country_pops_ratio
+}
+
+CURRENCY_governorship_wealth_due_to_upper_strata = {
+	value = CURRENCY_governorship_wealth_from_minting
+	multiply = FUNC_governorship_ratio_upper_strata
+	add = FUNC_governorship_ratio_slaves
+	add = FUNC_governorship_ratio_indentured
+}
+
+CURRENCY_governorship_wealth_due_to_middle_strata = {
+	value = CURRENCY_governorship_wealth_from_minting
+	multiply = FUNC_governorship_ratio_middle_strata
+}
+
+CURRENCY_governorship_wealth_due_to_lower_strata = {
+	value = CURRENCY_governorship_wealth_from_minting
+	multiply = FUNC_governorship_ratio_lower_strata
+}
+
+CURRENCY_governorship_wealth_due_to_proletariat = {
+	value = CURRENCY_governorship_wealth_from_minting
+	multiply = FUNC_governorship_ratio_proletariat
+}
+
+CURRENCY_governorship_wealth_due_to_indentured = {
+	value = CURRENCY_governorship_wealth_from_minting
+	multiply = FUNC_governorship_ratio_indentured
+}
+
+CURRENCY_governorship_wealth_due_to_tribesmen = {
+	value = CURRENCY_governorship_wealth_from_minting
+	multiply = FUNC_governorship_ratio_tribesmen
+}
+
+# NATIONAL DEBT INTEREST RATES
+
+CURRENCY_national_debt_interest_base = {
+	# Scope: Country
+	# Function: The base rate of national interest if Debt = 100% of GDP
+	value = 0.03
+}
+
+CURRENCY_national_debt_interest_actual = {
+	# Scope: Country
+	# Function: The interest rate of the given country based on its debt/GDP ratio
+	value = CURRENCY_national_debt_interest_base
+	multiply = CURRENCY_debt_to_GDP_ratio
+}
+
+CURRENCY_national_debt_interest_actual_wealth_cost = {
+	value = CURRENCY_national_debt_interest_actual
+	multiply = CURRENCY_national_debt_scaled_wealth_value_millions
+	#multiply = 10
+}
+
+# RESERVE TO GDP SCALES
+
+CURRENCY_reserve_to_gdp_ratio = {
+	value = CURRENCY_reserve_value_in_wealth_total
+	if = {
+		limit = {
+			WEALTH_total_private_moveable_wealth_scaled > 0
+		}
+		divide = WEALTH_total_private_moveable_wealth_scaled
+	}
+	divide = 100
+}
+
+CURRENCY_reserve_value_in_wealth_total = {
+	value = CURRENCY_reserve_value_in_wealth_silver
+	add = CURRENCY_reserve_value_in_wealth_gold
+}
+
+# Reference to gold and silver global values
+
+CURRENCY_global_base_import_price_gold = {
+	value = global_var:global_base_import_price_gold
+}
+
+CURRENCY_global_base_import_price_silver = {
+	value = global_var:global_base_import_price_silver
+}
+
+CURRENCY_global_base_import_price_gold_10 = {
+	value = global_var:global_base_import_price_gold
+	multiply = 10
+}
+
+CURRENCY_global_base_import_price_silver_10 = {
+	value = global_var:global_base_import_price_silver
+	multiply = 10
+}
+
+# Starting base currency values
+
+CURRENCY_base_starting_amt_circulated_scaled = {
+	# Scope: Country
+	# Function: Get the amount of currency to start with, if not defined elsewhere
+	value = var:official_currency.var:units_to_the_lb
+	multiply = WEALTH_total_private_moveable_wealth_scaled
+	#multiply = 0.6
+	add = country_population
+	multiply = 8
+	min = 1
+}
+
+# Money supply effects - deflation and inflation
+
+CURRENCY_amt_circulated_deflation = {
+	# Scope: Country
+	# Function: Calculate the deflation impact from insufficient money supply, which is subtracted from base demand for tradegoods from pops, and added onto the shortage for all tradegoods
+	value = 0
+	if = {
+		limit = {
+			has_variable = CURRENCY_amt_circulated_thousands
+			CURRENCY_private_cash_ratio < 1
+		}
+		value = 1
+		subtract = CURRENCY_private_cash_ratio
+		divide = 10
+	}
+}
+
+CURRENCY_amt_circulated_deflation_demand_multiplier = {
+	# Scope: Country
+	# Function: Get the value by which to multiply pop demand based on inflation
+	value = 1
+	subtract = CURRENCY_amt_circulated_deflation
+}
+
+CURRENCY_amt_circulated_inflation = {
+	# Scope: Country
+	# Function: Calculate the inflation impact from excess money supply, which is added to base demand for tradegoods from pops
+	value = 0
+	if = {
+		limit = {
+			has_variable = CURRENCY_amt_circulated_thousands
+			CURRENCY_private_cash_ratio > 1
+		}
+		value = CURRENCY_private_cash_ratio
+		subtract = 1
+		divide = 10
+	}
+}
+
+CURRENCY_amt_circulated_inflation_demand_multiplier = {
+	value = CURRENCY_amt_circulated_inflation
+	add = 1
+}
+
+CURRENCY_amt_circulated_inflation_100th = {
+	value = 0
+	if = {
+		limit = {
+			CURRENCY_amt_circulated_inflation > 0
+		}
+		value = CURRENCY_amt_circulated_inflation
+		divide = 100
+	}
+}
+
+CURRENCY_amt_circulated_inflation_wealth_multiplier = {
+	# Scope: Country
+	# Function: Calculate % loss to pop wealth every quarter from excess money supply
+	value = 1
+	if = {
+		limit = {
+			CURRENCY_amt_circulated_inflation > 0
+		}
+		subtract = CURRENCY_amt_circulated_inflation_100th
+	}
+}
+
+CURRENCY_inflation_cash_selloff_amt = {
+	# Scope: Country
+	# Function: Determine how much reserve metal pops are trying to buy with their inflated cash
+	value = CURRENCY_amt_circulated_inflation
+	divide = 5
+	multiply = CURRENCY_amt_circulated_scaled
+}
+
+CURRENCY_inflation_precious_metal_reserve_bought = {
+	# Scope: Country
+	# Function: Get the value, in hundreds of lbs, of reserve currency being bought by pops due to inflation
+	value = CURRENCY_inflation_cash_selloff_amt
+	multiply = 10
+	divide = var:official_currency.var:units_to_the_lb
+}
+
+CURRENCY_deflation_money_demand_amt = {
+	# Scope: Country
+	# Function: Extra money that is created by pops creating new money with private banks
+	value = CURRENCY_amt_circulated_deflation
+	multiply = 3000
+}
+
+CURRENCY_deflation_money_bought_precious_metal_sold = {
+	# Scope Country
+	# Function: Get the value in precious metal of the reserve sold
+	value = CURRENCY_deflation_money_demand_amt
+	divide = var:official_currency.var:units_to_the_lb
+	multiply = 10
+}
+
+CURRENCY_reserve_accumulation_rate_from_inflation_or_deflation = {
+	value = 0
+	if = {
+		limit = {
+			CURRENCY_amt_circulated_deflation > 0
+		}
+		value = CURRENCY_deflation_money_bought_precious_metal_sold
+	}
+	if = {
+		limit = {
+			CURRENCY_amt_circulated_inflation > 0
+		}
+		subtract = CURRENCY_inflation_precious_metal_reserve_bought		
+	}
+}
+
+CURRENCY_cash_inflation_wealth_malus_value = {
+	value = WEALTH_total_private_moveable_wealth
+	multiply = CURRENCY_amt_circulated_inflation_100th
+}
+
+## FUNC
+
+CURRENCY_amt_circulated_thousands_rounded = {
+	value = local_var:amt_circulated_thousands_rounded
+	subtract = 0.5
+	round = floor
 }

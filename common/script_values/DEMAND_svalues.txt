@@ -184,6 +184,11 @@ DEMAND_glass_industry_alcohol_malus = {
 	min = deficit_malus_small
 }
 
+DEMAND_consumer_multiplier = {
+	value = CURRENCY_amt_circulated_deflation_demand_multiplier
+	add = CURRENCY_amt_circulated_inflation_demand_multiplier
+}
+
 DEMAND_consumer_large = {
 	value = 0
 	if = {
@@ -192,6 +197,7 @@ DEMAND_consumer_large = {
 		}
 		add = var:governorship_population
 		multiply = 0.05
+		multiply = DEMAND_consumer_multiplier
 	}
 }
 
@@ -203,6 +209,7 @@ DEMAND_consumer_medium = {
 		}
 		add = var:governorship_population
 		multiply = 0.025
+		multiply = DEMAND_consumer_multiplier
 	}
 }
 
@@ -214,6 +221,7 @@ DEMAND_consumer_small = {
 		}
 		add = var:governorship_population
 		multiply = 0.005
+		multiply = DEMAND_consumer_multiplier
 	}
 }
 
@@ -225,6 +233,7 @@ DEMAND_consumer_tiny = {
 		}
 		add = var:governorship_population
 		multiply = 0.001
+		multiply = DEMAND_consumer_multiplier
 	}
 }
 
@@ -279,13 +288,19 @@ DEMAND_coal = { # Total
 			add = num_of_URB_residential_district
 		}
 	}
-	multiply = 0.1 
+	multiply = 0.2 
 	# Industrial coal use
 	if = {
 		limit = {
 			has_variable = INDUSTRY_factories_assigned_bronze
 		}
 		add = INDUSTRY_demand_bronze_coal
+	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_alcohol
+		}
+		add = INDUSTRY_demand_alcohol_coal
 	}
 }
 DEMAND_whales = { # Total
@@ -310,12 +325,24 @@ DEMAND_whales = { # Total
 
 DEMAND_glass = { # Total
 	value = 0
-
+	# Domestic glass usage
+	every_governorship_state = {
+		every_state_province = {
+			add = num_of_URB_residential_district
+		}
+	}
+	multiply = 0.1 
 	if = {
 		limit = {
 			has_variable = DEMAND_from_industry_glass
 		}
 		add = var:DEMAND_from_industry_glass
+	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_alcohol
+		}
+		add = INDUSTRY_demand_alcohol_glass
 	}
 }
 DEMAND_motors = { # Total
@@ -355,9 +382,9 @@ DEMAND_industrial_fibres = { # Total
 	}
 	if = {
 		limit = {
-			has_variable = DEMAND_from_industry_industrial_fibres
+			has_variable = INDUSTRY_factories_assigned_naval_supplies
 		}
-		add = var:DEMAND_from_industry_industrial_fibres
+		add = INDUSTRY_demand_naval_supplies_industrial_fibres
 	}
 }
 DEMAND_textile_fibres = { # Total
@@ -385,6 +412,12 @@ DEMAND_textile_fibres = { # Total
 			has_variable = INDUSTRY_factories_assigned_luxury_clothing
 		}
 		add = INDUSTRY_demand_luxury_clothing_textile_fibres
+	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_early_munitions
+		}
+		add = INDUSTRY_demand_early_munitions_textile_fibres
 	}
 }
 DEMAND_wool = { # Total
@@ -434,9 +467,9 @@ if = {
 	}
 	if = {
 		limit = {
-			has_variable = DEMAND_from_industry_wood
+			has_variable = INDUSTRY_factories_assigned_early_munitions
 		}
-		add = var:DEMAND_from_industry_wood
+		add = INDUSTRY_demand_early_munitions_wood
 	}
 }
 DEMAND_stone = { # Total
@@ -449,9 +482,9 @@ DEMAND_stone = { # Total
 	}
 	if = {
 		limit = {
-			has_variable = DEMAND_from_industry_stone
+			has_variable = INDUSTRY_factories_assigned_early_munitions
 		}
-		add = var:DEMAND_from_industry_stone
+		add = INDUSTRY_demand_early_munitions_stone
 	}
 }
 DEMAND_sulphur = { # Total
@@ -465,9 +498,9 @@ DEMAND_sulphur = { # Total
 	multiply = 0.04
 	if = {
 		limit = {
-			has_variable = DEMAND_from_industry_sulphur
+			has_variable = INDUSTRY_factories_assigned_early_munitions
 		}
-		add = var:DEMAND_from_industry_sulphur
+		add = INDUSTRY_demand_early_munitions_sulphur
 	}
 }
 DEMAND_peat = { # Total
@@ -541,6 +574,18 @@ DEMAND_copper = { # Total
 		}
 		add = INDUSTRY_demand_machine_parts_copper
 	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_naval_supplies
+		}
+		add = INDUSTRY_demand_naval_supplies_copper
+	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_alcohol
+		}
+		add = INDUSTRY_demand_alcohol_copper
+	}
 }
 DEMAND_iron = { # Total
 	value = 0
@@ -556,9 +601,17 @@ DEMAND_iron = { # Total
 		}
 		add = INDUSTRY_demand_machine_parts_iron
 	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_early_munitions
+		}
+		add = INDUSTRY_demand_early_munitions_iron
+	}
 }
 DEMAND_gold = { # Total
 	value = 0
+	add = DEMAND_luxury_base_total
+	multiply = 0.2
 	if = {
 		limit = {
 			has_variable = COTTAGEIND_produced_luxury_clothing
@@ -571,7 +624,7 @@ DEMAND_gold = { # Total
 		}
 		add = var:COTTAGEIND_produced_luxury_furniture
 	}
-	multiply = 0.8
+	#multiply = 0.8
 	if = {
 		limit = {
 			has_variable = INDUSTRY_factories_assigned_luxury_clothing
@@ -586,9 +639,9 @@ DEMAND_gold = { # Total
 			owner = {
 				trigger_if = {
 					limit = {
-						has_variable = gold_reserve_target
+						has_variable = gold_accumulation_rate
 					}
-					var:gold_reserve_target > DEMAND_gold_reserve_size_svalue
+					var:gold_accumulation_rate > 0
 				}
 			}
 		}
@@ -596,6 +649,11 @@ DEMAND_gold = { # Total
 	}
 }
 
+DEMAND_gold_reserve_accumulation_rate_national = {
+	# Scope: Country
+	# Functon: For use as a right-side comparator
+	value = var:gold_accumulation_rate
+}
 DEMAND_gold_reserve_size_svalue = {
 	# Scope: Country
 	# For use as right-side comparator
@@ -604,24 +662,39 @@ DEMAND_gold_reserve_size_svalue = {
 DEMAND_gold_reserve_accumulation_rate = {
 	# Scope: Governorship
 	# Function: Get the amount needed to fill the gold reserve target, divided by the number of governorships
-	if = {
-		limit = {
-			var:shortage_gold < 1
-		}
-		value = owner.var:gold_reserve_target
-		subtract = owner.var:gold_reserve_size
-		divide = owner.FUNC_num_governorships
-		multiply = DEMAND_shortage_gold_inverse
-	}
-	else = {
-		value = 0
-	}
+	value = owner.var:DEMAND_gold_reserve_accumulation_basis
+	# Reduce the effective demand based on the shortage
+	# multiply = DEMAND_shortage_gold_inverse ## NOTE: Removed because this causes major instability in prices
+	# Scale the demand to the governorship's proportion of the country's population
+	add = GOODS_governorship_gold_produced
+	multiply = var:governorship_population
+	divide = owner.country_population
+}
+DEMAND_gold_reserve_accumulation_basis = {
+	# Scope: Country
+	# Function: Get the gold reserve target minus current size divided by the number of governorships, to avoid calculating this every iteration when getting DEMAND_gold_reserve_accumulation_rate. This value is cached.
+	value = var:gold_accumulation_rate
+	divide = FUNC_num_governorships
 }
 DEMAND_shortage_gold_inverse = {
 	# Scope: Governorship
 	# Function: Get the inverse of the shortage of gold, so that the outcome is lower the higher the shortage
 	value = 1
-	subtract = var:shortage_gold
+	if = {
+		limit = {
+			has_variable = shortage_gold
+		}
+		subtract = var:shortage_gold
+	}
+}
+
+DEMAND_gold_base_minus_gold_reserve_demand = {
+	value = DEMAND_gold
+	subtract = DEMAND_gold_reserve_accumulation_rate
+}
+DEMAND_gold_for_reserve_divided_by_base_demand = {
+	value = DEMAND_gold_reserve_accumulation_rate
+	divide = DEMAND_gold_base_minus_gold_reserve_demand
 }
 
 
@@ -654,16 +727,21 @@ DEMAND_silver = { # Total
 			owner = {
 				trigger_if = {
 					limit = {
-						has_variable = silver_reserve_target
+						has_variable = silver_accumulation_rate
 					}
-					var:silver_reserve_target > DEMAND_silver_reserve_size_svalue
+					var:silver_accumulation_rate > 0
 				}
 			}
 		}
-		add = DEMAND_silver_reserve_accumulation_rate
+		add = DEMAND_gold_reserve_accumulation_rate
 	}
 }
 
+DEMAND_silver_reserve_accumulation_rate_national = {
+	# Scope: Country
+	# Functon: For use as a right-side comparator
+	value = var:silver_accumulation_rate
+}
 DEMAND_silver_reserve_size_svalue = {
 	# Scope: Country
 	# For use as right-side comparator
@@ -672,24 +750,39 @@ DEMAND_silver_reserve_size_svalue = {
 DEMAND_silver_reserve_accumulation_rate = {
 	# Scope: Governorship
 	# Function: Get the amount needed to fill the silver reserve target, divided by the number of governorships
-	if = {
-		limit = {
-			var:shortage_silver < 1
-		}
-		value = owner.var:silver_reserve_target
-		subtract = owner.var:silver_reserve_size
-		divide = owner.FUNC_num_governorships
-		multiply = DEMAND_shortage_silver_inverse
-	}
-	else = {
-		value = 0
-	}
+	value = GOODS_governorship_silver_produced
+	# Reduce the effective demand based on the shortage
+	# multiply = DEMAND_shortage_silver_inverse ## ## NOTE: Removed because this causes major instability in prices
+	# Scale the demand to the governorship's proportion of the country's population
+	add = GOODS_governorship_silver_produced
+	multiply = var:governorship_population
+	divide = owner.country_population
+}
+DEMAND_silver_reserve_accumulation_basis = {
+	# Scope: Country
+	# Function: Get the gold reserve target minus current size divided by the number of governorships, to avoid calculating this every iteration when getting DEMAND_gold_reserve_accumulation_rate. This value is cached.
+	value = var:silver_accumulation_rate
+	divide = FUNC_num_governorships
 }
 DEMAND_shortage_silver_inverse = {
 	# Scope: Governorship
 	# Function: Get the inverse of the shortage of silver, so that the outcome is lower the higher the shortage
 	value = 1
-	subtract = var:shortage_silver
+	if = {
+		limit = {
+			has_variable = shortage_silver
+		}
+		subtract = var:shortage_silver
+	}
+}
+
+DEMAND_silver_base_minus_silver_reserve_demand = {
+	value = DEMAND_silver
+	subtract = DEMAND_silver_reserve_accumulation_rate
+}
+DEMAND_silver_for_reserve_divided_by_base_demand = {
+	value = DEMAND_silver_reserve_accumulation_rate
+	divide = DEMAND_silver_base_minus_silver_reserve_demand
 }
 
 
@@ -744,9 +837,15 @@ DEMAND_lead = { # Total
 	multiply = 0.2
 	if = {
 		limit = {
-			has_variable = DEMAND_from_industry_lead
+			has_variable = INDUSTRY_factories_assigned_early_munitions
 		}
-		add = var:DEMAND_from_industry_lead
+		add = INDUSTRY_demand_early_munitions_lead
+	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_glass
+		}
+		add = INDUSTRY_demand_glass_lead
 	}
 }
 DEMAND_oil = { # Total
@@ -855,6 +954,18 @@ DEMAND_steel = { # Total
 		}
 		add = INDUSTRY_demand_machine_parts_steel
 	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_naval_supplies
+		}
+		add = INDUSTRY_demand_naval_supplies_steel
+	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_early_munitions
+		}
+		add = INDUSTRY_demand_early_munitions_steel
+	}
 }
 DEMAND_bronze = { # Total
 	value = 0
@@ -871,6 +982,12 @@ DEMAND_bronze = { # Total
 		}
 		add = INDUSTRY_demand_machine_parts_bronze
 	}
+	if = {
+		limit = {
+			has_variable = INDUSTRY_factories_assigned_naval_supplies
+		}
+		add = INDUSTRY_naval_supplies_parts_bronze
+	}
 }
 DEMAND_machine_parts = { # Total
 	value = 0
@@ -879,7 +996,7 @@ DEMAND_machine_parts = { # Total
 			add = num_of_IND_industrial_estate
 		}
 	}
-	multiply = 2
+	multiply = 3
 	# Demanded as a bonus by all factories
 	if = {
 		limit = {

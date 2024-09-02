@@ -86,6 +86,7 @@
 		      		INDUSTRY_setup_all_factory_assignments = yes # Set up fundamental variables for industries
 				}
 			}
+			# GBR
 			p:3934 = {
 				state.governorship = {
 					INDUSTRY_assign_factory = {
@@ -114,12 +115,40 @@
 					}
 				}
 			}
+			p:9936 = { # Sheerness naval factory
+				state.governorship = {
+					INDUSTRY_assign_factory = {
+						tradegood = naval_supplies
+						amount = 1
+					}
+				}
+			}
+			p:9889 = { # Birmingham gun factories
+				state.governorship = {
+					INDUSTRY_assign_factory = {
+						tradegood = early_munitions
+						amount = 4
+					}
+				}
+			}
 			# USA
 			p:8007 = {
 				state.governorship = {
 					INDUSTRY_assign_factory = {
 						tradegood = clothing
 						amount = 3
+					}
+					INDUSTRY_assign_factory = {
+						tradegood = alcohol
+						amount = 1
+					}
+				}
+			}
+			p:3958 = {
+				state.governorship = {
+					INDUSTRY_assign_factory = {
+						tradegood = alcohol
+						amount = 1
 					}
 				}
 			}
@@ -141,6 +170,24 @@
 					}
 				}
 			}
+			# JAM
+			p:8689 = {
+				state.governorship = {
+					INDUSTRY_assign_factory = {
+						tradegood = alcohol
+						amount = 1
+					}
+				}
+			}
+			# EIC
+			p:2336 = {
+				state.governorship = {
+					INDUSTRY_assign_factory = {
+						tradegood = alcohol
+						amount = 1
+					}
+				}
+			}
 			set_global_variable = initial_factory_setup_done
 		}
 
@@ -148,6 +195,12 @@
 			limit = {
 				NOT = {
 					has_global_variable = country_economy_setup_done
+				}
+			}
+			c:GBR = {
+				set_variable = {
+					name = GDP_modifier
+					value = 1.3468
 				}
 			}
 			every_country = {
@@ -160,6 +213,10 @@
 		      		CONSUME_setup_all_variables = yes
 				}
 			}
+			#c:GBR = {
+			#	remove_variable = GDP_modifier
+			#}
+			CURRENCY_create_starting_currencies = yes
 			set_global_variable = country_economy_setup_done
 		}
 
@@ -1446,6 +1503,10 @@
 		    		value = 0
 		    	}
 		    }
+
+		    CURRENCY_setup_all_reserves = yes
+		    CURRENCY_setup_public_debt_administrations = yes
+
 			GT_split_do_global_trade_split = { type = food}
 			GT_split_do_global_trade_split = { type = luxury}
 			GT_split_do_global_trade_split = { type = 3}
@@ -1457,6 +1518,24 @@
 					CONSUME_all_stockpiles = yes
 					GT_save_final_quarterly_wealth_values = yes
 				}
+				CURRENCY_all_governorships_send_to_reserves = yes # Collect all the precious metals demanded for the gold and silver reserves
+				if = {
+					limit = {
+						has_variable = official_currency
+					}
+					CURRENCY_private_purchase_or_sell_reserves = yes
+					CURRENCY_apply_inflation_wealth_malus_country = yes
+					CURRENCY_update_amt_circulated = yes
+				}
+				set_variable = {
+					name = TRADE_national_expenditure
+					value = TRADE_national_expenditure
+				}
+				set_variable = {
+					name = TRADE_national_income
+					value = TRADE_national_income
+				}
+				CURRENCY_apply_inflation_wealth_malus_country = yes
 			}
 
 			set_global_variable = done_trade_startup

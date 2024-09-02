@@ -10,8 +10,7 @@ base_window = {
 	parentanchor = top|left
 	widgetanchor = top|left
 	size = { @maxwidth 900 }
-	position = { 60 138 }
-	movable = no
+	using = main_window_template
 	
 	### Audio ###
 	state = {
@@ -448,9 +447,7 @@ base_window = {
 					blockoverride "Icon" 
 					{
 						size = { 22 22 }
-						using = button_tiled_texture
-						framesize = { 200 200 }
-						frame = 2
+						using = brighten_red_background
 						modify_texture = {
 							texture = "gfx/interface/base_parts/expand_collapse_button.dds" 
 							framesize = { 26 26 }
@@ -471,9 +468,7 @@ base_window = {
 					blockoverride "Icon" 
 					{ 
 						size = { 22 22 }
-						using = button_tiled_texture
-						framesize = { 200 200 }
-						frame = 2
+						using = brighten_red_background
 						modify_texture = {
 							texture = "gfx/interface/base_parts/expand_collapse_button.dds" 
 							framesize = { 26 26 }
@@ -859,10 +854,7 @@ base_window = {
 											
 											icon = {
 												parentanchor = center
-												using = button_tiled_texture
-												framesize = { 200 200 }
-												frame = 2
-												#alpha = 0.8
+												using = brighten_red_background
 												size = { 40 32 }
 												modify_texture = {
 													texture = "gfx/interface/icons/minimap/culture.dds"

@@ -1,10 +1,904 @@
-﻿CURRENCY_set_country_currency = {
+﻿CURRENCY_create_starting_currencies = {
+	# Scope: Country
+	# Function: Runs at startup to set up currencies, after the reserves are set up
+
+
+	# BRITISH POUND STERLING
+	c:GBR = { add_to_list = currency_adopters_list }
+	
+	CURRENCY_create_new_currency = {
+		currency_name = pound_sterling
+		originator_tag = c:GBR
+		backing_type = bimetallic_standard
+		units_to_the_lb = 62
+		currency_adopters_list = currency_adopters_list
+		use_currency_peggers_list = false
+		currency_peggers_list = false
+		override_existing = yes
+		paper_money_allowed = false
+	}
+
+	CURRENCY_set_amounts_country = {
+		target_country = c:GBR
+		amt_circulated_thousands = 920
+		amt_circulated_millions = 811
+		amt_circulated_billions = 0
+		amt_national_debt_thousands = 968
+		amt_national_debt_millions = 845
+		amt_national_debt_billions = 0
+		minting_rate = 0
+	}
+
+	CURRENCY_set_country_currency = {
+		target_country = c:GBR
+		currency_name = pound_sterling
+	}
+
+	every_in_list = {
+		list = currency_adopters_list
+		remove_from_list = currency_adopters_list
+	}
+
+
+	# FRENCH FRANC
+	c:FRA = { add_to_list = currency_adopters_list }
+
+	# Units to lb:
+	#22 francs = 5.8g gold
+	#78.2 of above goes into 1 lb
+	#therefore 22 x 78.2
+
+
+	# Define whichever parameters to test with
+	CURRENCY_create_new_currency = {
+		currency_name = Franc
+		originator_tag = c:FRA
+		backing_type = gold_standard
+		units_to_the_lb = 1720
+		currency_adopters_list = currency_adopters_list
+		use_currency_peggers_list = false
+		currency_peggers_list = false
+		override_existing = yes
+		paper_money_allowed = false
+	}
+
+	CURRENCY_set_amounts_country = {
+		target_country = c:FRA
+		amt_circulated_thousands = 134
+		amt_circulated_millions = 25
+		amt_circulated_billions = 3
+		amt_national_debt_thousands = 0
+		amt_national_debt_millions = 500
+		amt_national_debt_billions = 4
+		minting_rate = 0
+	}
+
+	CURRENCY_set_country_currency = {
+		target_country = c:FRA
+		currency_name = Franc
+	}
+
+	every_in_list = {
+		list = currency_adopters_list
+		remove_from_list = currency_adopters_list
+	}
+
+	# SPANISH DOLLAR
+	c:SPA = { add_to_list = currency_adopters_list }
+	c:NSP = { add_to_list = currency_adopters_list }
+	c:MEX = { add_to_list = currency_adopters_list }
+	c:NSP = { add_to_list = currency_adopters_list }
+	c:NSW = { add_to_list = currency_adopters_list }
+	c:PHI = { add_to_list = currency_adopters_list }
+	c:PR1 = { add_to_list = currency_adopters_list }
+
+	c:USA = { add_to_list = currency_peggers_list }
+
+	CURRENCY_create_new_currency = {
+		currency_name = spanish_dollar
+		originator_tag = c:SPA
+		backing_type = gold_standard
+		units_to_the_lb = 153
+		currency_adopters_list = currency_adopters_list
+		use_currency_peggers_list = true
+		currency_peggers_list = currency_peggers_list
+		override_existing = yes
+		paper_money_allowed = false
+	}
+
+	CURRENCY_set_amounts_country = {
+		target_country = c:SPA
+		amt_circulated_thousands = 986
+		amt_circulated_millions = 100
+		amt_circulated_billions = 0
+		amt_national_debt_thousands = 035
+		amt_national_debt_millions = 860
+		amt_national_debt_billions = 0
+		minting_rate = 0
+	}
+
+	CURRENCY_set_country_currency = {
+		target_country = c:SPA
+		currency_name = spanish_dollar
+	}
+
+	every_in_list = {
+		list = currency_adopters_list
+		save_scope_as = currency_adopter
+			CURRENCY_set_country_currency = {
+				target_country = scope:currency_adopter
+				currency_name = spanish_dollar
+			}
+	}
+
+	every_in_list = {
+		list = currency_adopters_list
+		remove_from_list = currency_adopters_list
+	}
+	every_in_list = {
+		list = currency_peggers_list
+		remove_from_list = currency_peggers_list
+	}
+
+	# CHINESE CHUAN
+	c:CHI = { add_to_list = currency_adopters_list }
+
+
+	CURRENCY_create_new_currency = {
+		currency_name = Chuan
+		originator_tag = CHI
+		backing_type = silver_standard
+		units_to_the_lb = 14
+		currency_adopters_list = currency_adopters_list
+		use_currency_peggers_list = false
+		currency_peggers_list = false
+		override_existing = yes
+		paper_money_allowed = false
+	}
+
+	CURRENCY_set_amounts_country = {
+		target_country = c:CHI
+		amt_circulated_thousands = 140
+		amt_circulated_millions = 46
+		amt_circulated_billions = 0
+		amt_national_debt_thousands = 0
+		amt_national_debt_millions = 0
+		amt_national_debt_billions = 0
+		minting_rate = 0
+	}
+
+	CURRENCY_set_country_currency = {
+		target_country = c:CHI
+		currency_name = Chuan
+	}
+
+	every_in_list = {
+		list = currency_adopters_list
+		remove_from_list = currency_adopters_list
+	}
+
+	# Conventionsthaler - North German currency outside of Prussia. South German states would peg their currencies to Prussian Thalers in 1837; North German states in the 1840s
+	c:SAX = { add_to_list = currency_adopters_list }
+	c:HSH = { add_to_list = currency_adopters_list }
+	c:NAS = { add_to_list = currency_adopters_list }
+	c:WDK = { add_to_list = currency_adopters_list }
+	c:HSK = { add_to_list = currency_adopters_list }
+	c:SWM = { add_to_list = currency_adopters_list }
+	c:SXM = { add_to_list = currency_adopters_list }
+	c:SXH = { add_to_list = currency_adopters_list }
+	c:SXC = { add_to_list = currency_adopters_list }
+	c:SXM = { add_to_list = currency_adopters_list }
+	c:SRS = { add_to_list = currency_adopters_list }
+	c:ANH = { add_to_list = currency_adopters_list }
+	c:LPD = { add_to_list = currency_adopters_list }
+	c:BRG = { add_to_list = currency_adopters_list }
+	c:BRE = { add_to_list = currency_adopters_list }
+	c:HAM = { add_to_list = currency_adopters_list }
+	c:LBK = { add_to_list = currency_adopters_list }
+	c:MKZ = { add_to_list = currency_adopters_list }
+	c:MKS = { add_to_list = currency_adopters_list }
+	c:MKZ = { add_to_list = currency_adopters_list }
+	c:OLD = { add_to_list = currency_adopters_list }
+	c:FRK = { add_to_list = currency_adopters_list }
+	c:HSD = { add_to_list = currency_adopters_list }
+
+
+	CURRENCY_create_new_currency = {
+		currency_name = Conventionsthaler
+		originator_tag = SAX
+		backing_type = silver_standard
+		units_to_the_lb = 194
+		currency_adopters_list = currency_adopters_list
+		use_currency_peggers_list = false
+		currency_peggers_list = false
+		override_existing = yes
+		paper_money_allowed = false
+	}
+
+	CURRENCY_set_amounts_country = {
+		target_country = c:SAX
+		amt_circulated_thousands = 140
+		amt_circulated_millions = 8
+		amt_circulated_billions = 0
+		amt_national_debt_thousands = 0
+		amt_national_debt_millions = 0
+		amt_national_debt_billions = 0
+		minting_rate = 0
+	}
+
+	every_in_list = {
+		list = currency_adopters_list
+		save_scope_as = adopter_scope
+		CURRENCY_set_country_currency = {
+			target_country = scope:adopter_scope
+			currency_name = Conventionsthaler
+		}
+	}
+
+	every_in_list = {
+		list = currency_adopters_list
+		remove_from_list = currency_adopters_list
+	}
+
+	# Starting amounts for all undefined countries
+	every_country = {
+		limit = {
+			has_variable = official_currency
+			NOT = {
+				has_variable = CURRENCY_amt_circulated_thousands
+			}
+		}
+		save_scope_as = target_country
+		CURRENCY_set_amounts_country = {
+			target_country = scope:target_country
+			amt_circulated_thousands = CURRENCY_base_starting_amt_circulated_scaled
+			amt_circulated_millions = 0
+			amt_circulated_billions = 0
+			amt_national_debt_thousands = 0
+			amt_national_debt_millions = 0
+			amt_national_debt_billions = 0
+			minting_rate = 0
+		}
+	}
+
+}
+
+CURRENCY_setup_public_debt_administrations = {
+	# Scope: Random country
+	# Function: Set up the countries with public debt administrations - these countries can create national debt, rather than having to rely purely on taxation or sell off reserves to raise government cash
+	c:GBR = {
+		set_variable = public_debt_administration
+	}
+	c:FRA = {
+		set_variable = public_debt_administration
+	}
+	c:SPA = {
+		set_variable = public_debt_administration
+	}
+}
+
+CURRENCY_setup_all_reserves = {
+	# Scope: Random country
+	# Function: Set up the precious metal reserves for all countries at the start of the game
+	# Called: By oa_economy_setup
+	c:GBR = {
+		CURRENCY_country_setup_reserves = {
+			gold_reserve_size = 444 # hundreds lb
+			gold_reserve_accumulation_rate = 50 # hundreds lb
+
+			silver_reserve_size = 7 # hundreds lb
+			silver_reserve_accumulation_rate = 3 # hundreds lb
+		}
+	}
+
+	c:FRA = {
+		CURRENCY_country_setup_reserves = {
+			gold_reserve_size = 1300 # hundreds lb
+			gold_reserve_accumulation_rate = 50 # hundreds lb
+
+			silver_reserve_size = 0 # hundreds lb
+			silver_reserve_accumulation_rate = 0 # hundreds lb
+		}
+	}
+
+	c:SPA = {
+		CURRENCY_country_setup_reserves = {
+			gold_reserve_size = 12180 # hundreds lb
+			gold_reserve_accumulation_rate = 50 # hundreds lb
+
+			silver_reserve_size = 0 # hundreds lb
+			silver_reserve_accumulation_rate = 0 # hundreds lb
+		}
+	}
+
+	c:CHI = {
+		CURRENCY_country_setup_reserves = {
+			gold_reserve_size = 0 # hundreds lb
+			gold_reserve_accumulation_rate = 0 # hundreds lb
+
+			silver_reserve_size = 20000 # hundreds lb
+			silver_reserve_accumulation_rate = 50 # hundreds lb
+		}
+	}
+
+	c:SAX = {
+		CURRENCY_country_setup_reserves = {
+			gold_reserve_size = 0 # hundreds lb
+			gold_reserve_accumulation_rate = 0 # hundreds lb
+
+			silver_reserve_size = 12 # hundreds lb
+			silver_reserve_accumulation_rate = 3 # hundreds lb
+		}
+	}
+
+	every_country = {
+		limit = {
+			NOT = {
+				OR = {
+					has_variable = gold_reserve_size
+					has_variable = silver_reserve_size
+				}
+			}
+		}
+		CURRENCY_country_setup_reserves = {
+			gold_reserve_size = CURRENCY_base_starting_reserve_gold # hundreds lb
+			gold_reserve_accumulation_rate = CURRENCY_base_starting_reserve_accumulation_rate_gold # hundreds lb
+
+			silver_reserve_size = CURRENCY_base_starting_reserve_silver # hundreds lb
+			silver_reserve_accumulation_rate = CURRENCY_base_starting_reserve_accumulation_rate_silver # hundreds lb
+		}
+	}
+}
+
+CURRENCY_all_governorships_send_to_reserves = {
+	# Scope: Country
+	# Function: Send the stock intended for reserves from all governorships to the national reserve
+	# Also record the actual change in each stockpile for the GUI display
+	set_variable = {
+		name = gold_reserve_actual_change
+		value = 0
+	}
+	set_variable = {
+		name = silver_reserve_actual_change
+		value = 0
+	}
+	ordered_governorships = {
+		order_by = {
+			value = GOODS_governorship_gold_produced
+		}
+		max = 999
+		CURRENCY_governorship_send_to_reserves = {
+			tradegood = gold
+		}
+	}
+	ordered_governorships = {
+		order_by = {
+			value = GOODS_governorship_silver_produced
+		}
+		max = 999
+		CURRENCY_governorship_send_to_reserves = {
+			tradegood = silver
+		}
+	}
+
+}
+
+CURRENCY_private_purchase_or_sell_reserves = {
+	# Scope: Country
+	# Function:
+	# Add from private purchase or sale of reserve metals
+	# Always buy or add to the biggest reserve
+	if = {
+		limit = {
+			var:gold_reserve_size > var:silver_reserve_size
+		}
+		change_variable = {
+			name = gold_reserve_size
+			add = CURRENCY_reserve_accumulation_rate_from_inflation_or_deflation
+		}
+		change_variable = {
+			name = gold_reserve_actual_change
+			add = CURRENCY_reserve_accumulation_rate_from_inflation_or_deflation
+		}
+	}
+	else_if = {
+		limit = {
+			var:silver_reserve_size > var:gold_reserve_size
+		}
+		change_variable = {
+			name = silver_reserve_size
+			add = CURRENCY_reserve_accumulation_rate_from_inflation_or_deflation
+		}
+		change_variable = {
+			name = silver_reserve_actual_change
+			add = CURRENCY_reserve_accumulation_rate_from_inflation_or_deflation
+		}
+	}
+
+}
+
+CURRENCY_governorship_send_to_reserves = {
+	# Scope: Governorship
+	# Function: Send the specified amount of the specified precious metal ($tradegood$ to the national reserves
+	set_local_variable = {
+		name = $tradegood$_for_reserves
+		value = DEMAND_$tradegood$_reserve_accumulation_rate
+	}
+
+	if = {
+		limit = {
+			has_variable = shortage_$tradegood$
+		}
+		change_local_variable = {
+			name = $tradegood$_for_reserves
+			multiply = var:shortage_$tradegood$
+		}
+	}
+
+	if = {
+		limit = {
+			owner.var:$tradegood$_reserve_actual_change > owner.DEMAND_$tradegood$_reserve_accumulation_rate_national
+		}
+		set_local_variable = {
+			name = $tradegood$_for_reserves
+			value = 0
+		}
+	}
+
+	if = {
+		limit = {
+			DEMAND_difference_$tradegood$ > 0
+		}
+		change_local_variable = {
+			name = $tradegood$_for_reserves
+			add = DEMAND_difference_$tradegood$
+		}
+	}
+
+	if = {
+		limit = {
+			local_var:$tradegood$_for_reserves > owner.DEMAND_$tradegood$_reserve_accumulation_rate_national
+		}
+		set_local_variable = {
+			name = $tradegood$_for_reserves
+			value = owner.DEMAND_$tradegood$_reserve_accumulation_rate_national
+		}
+	}
+
+	owner = {
+		change_variable = {
+			name = $tradegood$_reserve_size
+			add = local_var:$tradegood$_for_reserves
+		}
+		change_variable = {
+			name = $tradegood$_reserve_actual_change
+			add = local_var:$tradegood$_for_reserves
+		}
+	}
+
+}
+
+CURRENCY_alter_own_debt = {
+	# Scope: Country
+	# Function: Add to the national debt value, accounting for the thousands, millions and billions values that need to be displayed
+	change_variable = {
+		name = CURRENCY_national_debt_thousands
+		add = $thousands$
+	}
+	if = {
+		limit = {
+			var:CURRENCY_national_debt_thousands < 0
+		}
+		set_variable = {
+			name = CURRENCY_national_debt_thousands
+			value = 999
+		}
+		change_variable = {
+			name = CURRENCY_national_debt_millions
+			subtract = 1
+		}
+	}
+	while = {
+		count = 9
+		limit = {
+			var:CURRENCY_national_debt_thousands > 1000
+		}
+		change_variable = {
+			name = CURRENCY_national_debt_thousands
+			subtract = 1000
+		}
+		change_variable = {
+			name = CURRENCY_national_debt_millions
+			add = 1
+		}
+	}
+
+	change_variable = {
+		name = CURRENCY_national_debt_millions
+		add = $millions$
+	}
+	if = {
+		limit = {
+			var:CURRENCY_national_debt_millions > 1000
+		}
+		change_variable = {
+			name = CURRENCY_national_debt_millions
+			subtract = 1000
+		}
+		change_variable = {
+			name = CURRENCY_national_debt_billions
+			add = 1
+		}
+	}
+
+	change_variable = {
+		name = CURRENCY_national_debt_billions
+		add = $billions$
+	}
+	if = {
+		limit = {
+			CURRENCY_national_debt_scaled < 0
+		}
+		set_variable = {
+			name = CURRENCY_national_debt_thousands
+			value = 0
+		}
+		set_variable = {
+			name = CURRENCY_national_debt_millions
+			value = 0
+		}
+		set_variable = {
+			name = CURRENCY_national_debt_billions
+			value = 0
+		}
+	}
+}
+
+CURRENCY_grant_country_wealth = {
+	# Scope: Country
+	# Function: Grant $thousands$ thousand of units of currency's worth of wealth
+	set_local_variable = {
+		name = wealth_to_grant
+		value = $thousands$
+	}
+	change_local_variable = {
+		name = wealth_to_grant
+		multiply = CURRENCY_wealth_value_1_unit_scaled_by_reserve_ratio_x1k
+	}
+	add_treasury = local_var:wealth_to_grant
+}
+
+CURRENCY_mint_currency = {
+	# Scope: Country
+	# Function: Checks the maximum minting rate and mints the according amount of wealth
+	if = {
+		limit = {
+			var:CURRENCY_minting_rate > CURRENCY_minting_rate_cap
+		}
+		set_variable = {
+			name = CURRENCY_minting_rate
+			value = CURRENCY_minting_rate_cap
+		}
+	}
+	CURRENCY_alter_amt_circulated = {
+		thousands = CURRENCY_minting_rate
+		millions = 0
+		billions = 0
+	}
+	CURRENCY_distribute_currency_all_governorships = yes
+}
+
+CURRENCY_update_amt_circulated = {
+	# Scope: Country
+	# Called: Monthly
+	# Function: Update the amount circulated amount by adding the amount minted and the amount subtracted for trade expenses (money going abroad)
+	CURRENCY_alter_amt_circulated = {
+		thousands = CURRENCY_amt_circulated_balance
+		millions = 0
+		billions = 0
+	}
+}
+
+CURRENCY_alter_amt_circulated = {
+	# Scope: Country
+	# Function: Add to the national debt value, accounting for the thousands, millions and billions values that need to be displayed
+	change_variable = {
+		name = CURRENCY_amt_circulated_thousands
+		add = $thousands$
+	}
+	if = {
+		limit = {
+			var:CURRENCY_amt_circulated_thousands < 0
+		}
+		set_variable = {
+			name = CURRENCY_amt_circulated_thousands
+			value = 999
+		}
+		change_variable = {
+			name = CURRENCY_amt_circulated_million
+			subtract = 1
+		}
+	}
+	while = {
+		count = 999
+		limit = {
+			var:CURRENCY_amt_circulated_thousands > 1000
+		}
+		change_variable = {
+			name = CURRENCY_amt_circulated_thousands
+			subtract = 1000
+		}
+		change_variable = {
+			name = CURRENCY_amt_circulated_millions
+			add = 1
+		}
+	}
+
+	if = {
+		limit = {
+			$millions$ > 0
+		}
+		change_variable = {
+			name = CURRENCY_amt_circulated_millions
+			add = $millions$
+		}
+		if = {
+			limit = {
+				var:CURRENCY_amt_circulated_millions > 1000
+			}
+			change_variable = {
+				name = CURRENCY_amt_circulated_millions
+				subtract = 1000
+			}
+			change_variable = {
+				name = CURRENCY_amt_circulated_billions
+				add = 1
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			$billions$ > 0
+		}
+		change_variable = {
+			name = CURRENCY_amt_circulated_billions
+			add = $billions$
+		}
+	}
+}
+
+CURRENCY_set_amounts_country = {
+	# Scope: Country
+	# Function: Set the amount of currency in circulation in this country, both in public pockets and as national debt owned by the state
+
+	# Units of this currency in public circulation, in the tens of thousands
+	$target_country$ = {
+
+		if = {
+			limit = {
+				$amt_circulated_thousands$ = CURRENCY_base_starting_amt_circulated_scaled
+			}
+			set_variable = {
+				name = CURRENCY_amt_circulated_thousands
+				value = 0
+			}
+			set_variable = {
+				name = CURRENCY_amt_circulated_millions
+				value = 0
+			}
+			set_variable = {
+				name = CURRENCY_amt_circulated_billions
+				value = 0
+			}
+
+			if = {
+				limit = {
+					$amt_circulated_thousands$ > 1000
+				}
+				set_local_variable = {
+					name = amt_circulated_thousands_overload
+					value = $amt_circulated_thousands$
+				}
+				change_local_variable = {
+					name = amt_circulated_thousands_overload
+					divide = 1000
+				}
+				# Set millions
+				change_variable = {
+					name = CURRENCY_amt_circulated_millions
+					add = local_var:amt_circulated_thousands_overload
+				}
+
+				set_local_variable = {
+					name = amt_circulated_thousands_remainder
+					value = local_var:amt_circulated_thousands_overload
+				}
+
+				set_local_variable = {
+					name = amt_circulated_thousands_rounded
+					value = local_var:amt_circulated_thousands_overload
+				}
+
+				change_local_variable = {
+					name = amt_circulated_thousands_remainder
+					subtract = CURRENCY_amt_circulated_thousands_rounded #svalue
+				}
+				change_local_variable = {
+					name = amt_circulated_thousands_remainder
+					multiply = 1000
+				}
+				# Set thousands
+				change_variable = {
+					name = CURRENCY_amt_circulated_thousands
+					add = local_var:amt_circulated_thousands_remainder
+				}
+			}
+			else = {
+				change_variable = {
+					name = CURRENCY_amt_circulated_thousands
+					add = CURRENCY_base_starting_amt_circulated_scaled
+				}
+			}
+
+			if = {
+				limit = {
+					$amt_circulated_millions$ > 1000
+				}
+				set_local_variable = {
+					name = amt_circulated_thousands_overload
+					value = $amt_circulated_thousands$
+				}
+				change_local_variable = {
+					name = amt_circulated_thousands_overload
+					divide = 1000
+				}
+				change_variable = {
+					name = CURRENCY_amt_circulated_millions
+					add = local_var:amt_circulated_thousands_overload
+				}
+			}
+
+			if = {
+				limit = {
+					$amt_circulated_billions$ > 1000
+				}
+				set_local_variable = {
+					name = amt_circulated_thousands_overload
+					value = $amt_circulated_thousands$
+				}
+				change_local_variable = {
+					name = amt_circulated_thousands_overload
+					divide = 1000
+				}
+				change_variable = {
+					name = CURRENCY_amt_circulated_millions
+					add = local_var:amt_circulated_thousands_overload
+				}
+			}
+		}
+		else = {
+			set_variable = {
+				name = CURRENCY_amt_circulated_thousands
+				value = $amt_circulated_thousands$
+			}
+			set_variable = {
+				name = CURRENCY_amt_circulated_millions
+				value = $amt_circulated_millions$
+			}
+			set_variable = {
+				name = CURRENCY_amt_circulated_billions
+				value = $amt_circulated_billions$
+			}	
+		}
+
+		# Units of this currency in the state's ledgers
+		set_variable = {
+			name = CURRENCY_national_debt_thousands
+			value = $amt_national_debt_thousands$
+		}
+		set_variable = {
+			name = CURRENCY_national_debt_millions
+			value = $amt_national_debt_millions$
+		}
+		set_variable = {
+			name = CURRENCY_national_debt_billions
+			value = $amt_national_debt_billions$
+		}
+		set_variable = {
+			name = CURRENCY_minting_rate
+			value = $minting_rate$
+		}
+	}
+}
+
+CURRENCY_governorship_allocate_pops_currency = {
+	# Scope: Governorship
+	# Function: Give the pops a currency stockpile to replace a percentage of their wealth
+}
+
+CURRENCY_governorship_allocate_local_currency = {
+	# Scope: Governorship
+	# Function: Determine which currency is in use in a governorship, so it can be converted if that changes
+}
+
+CURRENCY_set_country_currency = {
 	# Scope: Country
 	# Functon: Set the official currency of a country
+	$target_country$ = {
 
-	set_variable = {
-		name = official_currency
-		value = global_var:$currency_name$
+		save_scope_as = currency_set_country
+
+		if = {
+			limit = {
+				has_variable = official_currency
+			}
+			var:official_currency = {
+				remove_list_variable = {
+					name = currency_adopted_countries
+
+					target = scope:currency_set_country
+				}
+				remove_list_variable = {
+					name = currency_pegged_countries
+
+					target = scope:currency_set_country
+				}
+			}
+		}
+
+		set_variable = {
+			name = official_currency
+			value = global_var:$currency_name$
+		}
+
+		global_var:$currency_name$ = {
+			add_to_variable_list = {
+				name = currency_adopted_countries
+				target = scope:currency_set_country
+			}
+		}
+
+	}
+}
+
+CURRENCY_peg_country_currency = {
+	# Scope: Country
+	# Function: Set this country's currency as the named currency, but do not contribute to its value
+	$target_country$ = {
+
+		save_scope_as = curreny_peg_country
+
+		if = {
+			limit = {
+				has_variable = official_currency
+			}
+			var:official_currency = {
+				remove_list_variable = {
+					name = currency_adopted_countries
+
+					target = scope:curreny_peg_country
+				}
+				remove_list_variable = {
+					name = currency_pegged_countries
+
+					target = scope:curreny_peg_country
+				}
+			}
+		}
+
+		set_variable = {
+			name = official_currency
+			value = global_var:$currency_name$
+		}
+
+		global_var:$currency_name$ = {
+			add_to_variable_list = {
+				name = currency_pegged_countries
+				target = scope:curreny_peg_country
+			}
+		}
+
 	}
 }
 
@@ -18,43 +912,130 @@ CURRENCY_create_new_currency = {
 	# $backing_type$, string:
 	#	gold_standard (just gold)
 	#	bimetallic_standard (gold and silver)
-	random_province = {
+	# Two lists
+	# Currency adopters list (min. 1 member)
+	# $use_currency_peggers_list$ = flag, "true" or "false" to trigger whether the currency peggers list is counted
+	# Currency peggers list (may be empty)
+
+	if = {
 		limit = {
 			NOT = {
-				has_variable = is_currency
+				has_global_variable = $currency_name$
 			}
 		}
-		save_scope_as = currency_scope
+		save_scope_as = currency_create_scope
 
-		set_variable = {
-			name = currency_name
-			value = flag:$currency_name$ # Can be localised
+		random_province = {
+			limit = {
+				NOT = {
+					has_variable = is_currency
+				}
+			}
+			CURRENCY_setup_currency_info = {
+				currency_name = $currency_name$
+				currency_adopters_list = $currency_adopters_list$
+				currency_peggers_list = $currency_peggers_list$
+				use_currency_peggers_list = $use_currency_peggers_list$
+				originator_tag = $originator_tag$
+				units_to_the_lb = $units_to_the_lb$
+				backing_type = $backing_type$
+				paper_money_allowed = $paper_money_allowed$
+			}
+
 		}
-
-		set_variable = {
-			name = originator_country
-			value = c:$originator_tag$
-		}
-
-		set_variable = {
-			name = amt_circulated
-			value = $amt_circulated$
-		}
-
-		set_variable = {
-			name = backing_type
-			value = $backing_type$
-		}
-
-		# Purchasing power - the number of wealth units per unit of this currency
-		# Automatic wealth purchasing power calculation takes the import price of all tradegoods
-		CURRENCY_update_purchasing_power = yes
 	}
+	else_if = {
+		limit = {
+			has_global_variable = $currency_name$
+			flag:$override_existing$ = flag:yes # Whether to override an existing currency
+		}
+		global_var:$currency_name$ = {
+			CURRENCY_setup_currency_info = {
+				currency_name = $currency_name$
+				currency_adopters_list = $currency_adopters_list$
+				currency_peggers_list = $currency_peggers_list$
+				use_currency_peggers_list = $use_currency_peggers_list$
+				originator_tag = $originator_tag$
+				units_to_the_lb = $units_to_the_lb$
+				backing_type = $backing_type$
+				paper_money_allowed = $paper_money_allowed$
+			}
+		}
+	}
+
+}
+
+CURRENCY_setup_currency_info = {
+	# Scope: Currency province
+	# Function: Set the given currency info in a specified currency
+	save_scope_as = currency_scope
 
 	set_global_variable = {
 		name = $currency_name$
 		value = scope:currency_scope
 	}
+
+	# Add the countries to adopt this currency and to peg to it. WARNING, this overrides existing currency settings for countries, so only set these if you really mean to.
+	scope:currency_create_scope = {
+		every_in_list = {
+			list = $currency_adopters_list$
+
+			save_scope_as = target_country
+
+			CURRENCY_set_country_currency = {
+				currency_name = $currency_name$
+				target_country = scope:target_country
+			}
+		}
+		
+		if = {
+			limit = {
+				flag:$use_currency_peggers_list$ = flag:true
+			}
+			every_in_list = {
+				list = $currency_peggers_list$
+
+				save_scope_as = target_country
+
+				CURRENCY_peg_country_currency = {
+					currency_name = $currency_name$
+					target_country = scope:target_country
+				}
+			}
+		}
+	}
+
+	set_variable = {
+		name = currency_name
+		value = flag:$currency_name$ # Can be localised
+	}
+
+	set_variable = {
+		name = paper_money_allowed
+		value = flag:$paper_money_allowed$
+	}
+
+	set_variable = {
+		name = originator_country
+		value = $originator_tag$
+	}
+
+	# Units of this currency to the pound of backing material
+	set_variable = {
+		name = units_to_the_lb
+		value = $units_to_the_lb$
+	}
+
+	set_variable = {
+		name = backing_type
+		value = flag:$backing_type$
+	}
+
+	# Backing value - the value of the currency based on the backing of precious metal reserves
+	CURRENCY_update_backing_value = yes
+	# Purchasing power - the number of wealth units per unit of this currency
+	# Automatic wealth purchasing power calculation takes the import price of all tradegoods
+	CURRENCY_update_purchasing_power = yes
 }
 
 CURRENCY_update_purchasing_power = {
@@ -62,14 +1043,66 @@ CURRENCY_update_purchasing_power = {
 	# Function: Update the purchasing power of one unit of this currency, in terms of 1 unit of wealth
 	# Purchasing power - the number of wealth units per unit of this currency
 	# Automatic wealth purchasing power calculation takes the import price of all tradegoods
+
+	save_scope_as = currency_scope
+
+	# Set purchasing power as 1, it will later be divided by the the demand times cost of all tradegoods in countries who have adopted this tradegood
 	set_variable = {
 		name = purchasing_power
 		value = 1
 	}
+
+	# Set a variable to contain the total wealth value of all demand in every country which has adopted this currency
+	set_variable = {
+		name = wealth_value_total_all_demand
+		value = 0
+	}
+
+	every_in_list = {
+		variable = currency_adopters_list
+
+		save_scope_as = this_country
+
+		scope:currency_scope = {
+			every_tradegood_complex = {
+				APPLY = CURRENCY_add_tradegood_total_demand_cost
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			var:wealth_value_total_all_demand > 0
+		}
+		change_variable = {
+			name = purchasing_power
+			divide = var:wealth_value_total_all_demand
+		}
+	}
+
 	change_variable = {
 		name = purchasing_power
-		divide = var:originator_country.WEALTH_import_price_all_tradegoods # This should probably be weighted by the country's demand for each tradegood, but that would be more performance intensive. Think of a way to scale this realistically without too many calculations?
-	}	
+		multiply = var:backing_value
+	}
+
+}
+
+CURRENCY_add_tradegood_total_demand_cost = {
+	# Scope: Currency province
+	# Function: Get the total cost of fulfilling all demand for $tradegood$ in the current country (only when called as part of a currency_adopters_list in CURRENCY_update_purchasing_power)
+	set_local_variable = {
+		name = amount_to_add
+		value = scope:this_country.DEMAND_country_$tradegood$
+	}
+	change_local_variable = {
+		name = amount_to_add
+		multiply = scope:this_country.var:country_unit_price_$tradegood$
+	}
+
+	change_variable = {
+		name = wealth_value_total_all_demand
+		add = local_var:amount_to_add
+	}
 }
 
 CURRENCY_update_backing_value = {
@@ -82,11 +1115,11 @@ CURRENCY_update_backing_value = {
 		}
 		set_variable = {
 			name = backing_value
-			value = var:originator_country.var:country_import_price_gold
+			value = var:originator_country.var:country_unit_price_gold
 		}
 		change_variable = {
 			name = backing_value
-			multiply = var:originator_country.var:currency_reserves_gold
+			multiply = var:originator_country.var:gold_reserve_size
 		}
 	}
 	else_if = {
@@ -95,11 +1128,11 @@ CURRENCY_update_backing_value = {
 		}
 		set_variable = {
 			name = backing_value
-			value = var:originator_country.var:country_import_price_silver
+			value = var:originator_country.var:country_unit_price_silver
 		}
 		change_variable = {
 			name = backing_value
-			multiply = var:originator_country.var:currency_reserves_silver
+			multiply = var:originator_country.var:silver_reserve_size
 		}
 	}
 	else_if = {
@@ -108,19 +1141,19 @@ CURRENCY_update_backing_value = {
 		}
 		set_local_variable = {
 			name = backing_value_from_silver
-			value = var:originator_country.var:country_import_price_silver
+			value = var:originator_country.var:country_unit_price_silver
 		}
 		change_local_variable = {
 			name = backing_value_from_silver
-			multiply = var:originator_country.var:currency_reserves_silver
+			multiply = var:originator_country.var:silver_reserve_size
 		}
 		set_local_variable = {
 			name = backing_value_from_gold
-			value = var:originator_country.var:country_import_price_silver
+			value = var:originator_country.var:country_unit_price_gold
 		}
 		change_local_variable = {
 			name = backing_value_from_gold
-			multiply = var:originator_country.var:currency_reserves_silver
+			multiply = var:originator_country.var:gold_reserve_size
 		}
 		set_variable = {
 			name = backing_value
@@ -132,15 +1165,12 @@ CURRENCY_update_backing_value = {
 		}
 	}
 
-	change_variable = {
-		name = backing_value
-		divide = var:amt_circulated
-	}
 }
 
 CURRENCY_country_setup_reserves = {
 	# Scope: Country
-	# Function: Setup up empty variables for precious metal reserves
+	# Function: Setup up variables for precious metal reserves
+	# The smalleste integer unit of the reserves is 1 hundred pounds (lb)
 	set_variable = {
 		name = gold_reserve_size
 		value = $gold_reserve_size$
@@ -151,20 +1181,20 @@ CURRENCY_country_setup_reserves = {
 	}
 
 	set_variable = {
-		name = gold_reserve_target
-		value = $gold_reserve_target_size$
+		name = gold_accumulation_rate
+		value = $gold_reserve_accumulation_rate$
 	}
 	set_variable = {
-		name = silver_reserve_target
-		value = $silver_reserve_target_size$
+		name = silver_accumulation_rate
+		value = $silver_reserve_accumulation_rate$
 	}
 }
 
-CURRENCY_country_set_reserve_target = {
+CURRENCY_country_set_accumulation_rate = {
 	# Scope: Country
-	# Function: Set the target amount of a precious metal to hold in reserve
+	# Function: Set the target amount of a precious metal to buy every quarter in reserve
 	set_variable = {
-		name = $reserve_material$_reserve_target
+		name = $reserve_material$_accumulation_rate
 		value = $target_value$
 	}
 }
@@ -172,6 +1202,7 @@ CURRENCY_country_set_reserve_target = {
 CURRENCY_country_update_reserve_size = {
 	# Scope: Country
 	# Function: Update the amount in the reserve based on how much the governorships can acquire
+	# DEFUNCT
 	every_governorships = {
 		save_scope_as = governorship_scope
 		owner = {
@@ -180,5 +1211,81 @@ CURRENCY_country_update_reserve_size = {
 				add = scope:governorship_scope.DEMAND_$reserve_material$_reserve_accumulation_rate
 			}
 		}
+	}
+
+}
+
+CURRENCY_distribute_currency_all_governorships = {
+	every_governorships = {
+		CURRENCY_distribute_governorship_minted_currency = yes
+	}
+}
+
+CURRENCY_distribute_governorship_minted_currency = {
+	# Scope: Governorship
+	# Function: Cache the ratio of each pop type in a province
+	change_variable = {
+		name = upper_strata_wealth
+		add = CURRENCY_governorship_wealth_due_to_upper_strata
+	}
+	change_variable = {
+		name = middle_strata_wealth
+		add = CURRENCY_governorship_wealth_due_to_middle_strata
+	}
+	change_variable = {
+		name = lower_strata_wealth
+		add = CURRENCY_governorship_wealth_due_to_lower_strata
+	}
+	change_variable = {
+		name = proletariat_wealth
+		add = CURRENCY_governorship_wealth_due_to_proletariat
+	}
+	change_variable = {
+		name = tribesmen_wealth
+		add = CURRENCY_governorship_wealth_due_to_tribesmen
+	}
+}
+
+## WIP ##
+
+CURRENCY_apply_inflation_wealth_malus_country = {
+	# Scope: Country
+	# Function: Check if the pops' wealth needs to be reduced due to inflation, and if it does, do so.
+	if = {
+		limit = {
+			CURRENCY_amt_circulated_inflation_wealth_multiplier < 1
+		}
+		every_governorships = {
+			CURRENCY_apply_inflation_wealth_malus_governorship = yes
+		}
+	}
+}
+
+CURRENCY_apply_inflation_wealth_malus_governorship = {
+	# Scope: Governorship
+	# Function: Reduce every pops' wealth by the percentage amount determined by inflation due to excess money supply
+	change_variable = {
+		name = upper_strata_wealth
+		multiply = CURRENCY_amt_circulated_inflation_wealth_multiplier
+	}
+	change_variable = {
+		name = middle_strata_wealth
+		multiply = CURRENCY_amt_circulated_inflation_wealth_multiplier
+	}
+	change_variable = {
+		name = lower_strata_wealth
+		multiply = CURRENCY_amt_circulated_inflation_wealth_multiplier
+	}
+	change_variable = {
+		name = proletariat_wealth
+		multiply = CURRENCY_amt_circulated_inflation_wealth_multiplier
+	}
+	change_variable = {
+		name = tribesmen_wealth
+		multiply = CURRENCY_amt_circulated_inflation_wealth_multiplier
+	}
+	change_variable = {
+		name = indentured_wealth
+		multiply = CURRENCY_amt_circulated_inflation_wealth_multiplier
 	}
 }
